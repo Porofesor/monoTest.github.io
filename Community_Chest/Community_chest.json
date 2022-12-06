@@ -1,0 +1,92 @@
+[
+    {
+        "id":0,
+        "description":"",
+        "content":"ADVANCE TO GO",
+        "function": 0      
+    },
+    {
+        "id":1,
+        "description":"",
+        "content":"YOU INHERIT 100$",
+        "function": 1      
+    },
+    {
+        "id":2,
+        "description":"All player visit your restaurant",
+        "content":"COLLECT 50$ FROM EVERY PLAYER",
+        "function": 2      
+    },
+    {
+        "id":3,
+        "description":"",
+        "content":"GO TO JAIL",
+        "function": 3      
+    },
+    {
+        "id":4,
+        "description":"",
+        "content":"GET OUT OF JAIL",
+        "function": 4      
+    },
+    {
+        "id":5,
+        "description":"You have won",
+        "content":"SECOND PRIZE IN A BEAUTY CONTEST COLLECT 30$",
+        "function": 5      
+    },
+    {
+        "id":6,
+        "description":"You are lucky",
+        "content":"COLLECT 100$",
+        "function": 6      
+    },
+    {
+        "id":7,
+        "description":"",
+        "content":"FROM SALE OF STOCK YOU GET 45$",
+        "function": 7      
+    },
+    {
+        "id":8,
+        "description":"You visited hospital",
+        "content":"PAY 100$",
+        "function": 8      
+    },
+    {
+        "id":9,
+        "description":"Income tax refund",
+        "content":"COLLECT 20$",
+        "function": 9      
+    },
+    {
+        "id":10,
+        "description":"Doctors fee",
+        "content":"PAY 50$",
+        "function": 10      
+    },
+    {
+        "id":11,
+        "description":"Bank error in your favor",
+        "content":"COLLECT 200$",
+        "function": 11      
+    },
+    {
+        "id":12,
+        "description":"Life insurance matures",
+        "content":"COLLECT 100$",
+        "function": 12      
+    },
+    {
+        "id":13,
+        "description":"Private school expenses",
+        "content":"PAY 150$",
+        "function": 13      
+    },
+    {
+        "id":14,
+        "description":"Street repairs",
+        "content":"PAY 40$ FOR HOUSE",
+        "function": 14      
+    }
+]

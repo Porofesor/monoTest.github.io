@@ -1,0 +1,24 @@
+.player{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    font-size: 3vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px black solid;
+}
+
+#player-1{
+    background-color: var(--player-1);
+}
+#player-2 {
+    background-color: var(--player-2);
+}
+#player-3 {
+    background-color: var(--player-3)
+}
+#player-4 {
+    background-color: var(--player-4)
+}

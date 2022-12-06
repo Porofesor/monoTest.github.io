@@ -1,0 +1,92 @@
+[
+    {
+        "id":0,
+        "description":"You have been ELECTED CHAIRMAN of the board",
+        "content":"PAY EACH PLAYER 50$",
+        "function": 0      
+    },
+    {
+        "id":1,
+        "description":"This card may be kept until needed",
+        "content":"GET OUT OF JAIL FREE",
+        "function": 1      
+    },
+    {
+        "id":2,
+        "description":"",
+        "content":"PAY POOR TAX OF 15$",
+        "function": 2      
+    },
+    {
+        "id":3,
+        "description":"",
+        "content":"ADVANCE TO GO",
+        "function": 3      
+    },
+    {
+        "id":4,
+        "description":"",
+        "content":"GO BACK 3 SPACES",
+        "function": 4      
+    },
+    {
+        "id":5,
+        "description":"Advance token to the nearest railroad and pay  owner TWICE the rental to wjich owner is otherwise entitled",
+        "content":"If railroads is UNOWNED, you may buy it",
+        "function": 5      
+    },
+    {
+        "id":6,
+        "description":"Advance token to the nearest railroad and pay  owner TWICE the rental to wjich owner is otherwise entitled",
+        "content":"If railroads is UNOWNED, you may buy it",
+        "function": 5      
+    },
+    {
+        "id":7,
+        "description":"Go Directly",
+        "content":"TO JAIL",
+        "function": 6      
+    },
+    {
+        "id":8,
+        "description":"",
+        "content":"YOU ARE LUCKY, COLLECT 150$",
+        "function": 7      
+    },
+    {
+        "id":9,
+        "description":"",
+        "content":"BANK PAYS YOU 50$",
+        "function": 8      
+    },
+    {
+        "id":10,
+        "description":"Go on a parking",
+        "content":"IF YOU PASS GO COLLECT 200$",
+        "function": 9      
+    },
+    {
+        "id":11,
+        "description":"",
+        "content":"ADVANCE TO Madrit",
+        "function": 10      
+    },
+    {
+        "id":12,
+        "description":"",
+        "content":"ADVANCE TOKEN TO NEAREST UTILITY",
+        "function": 11      
+    },
+    {
+        "id":13,
+        "description":"",
+        "content":"ADVANCE TO Frankfurt",
+        "function": 12      
+    },
+    {
+        "id":14,
+        "description":"Make general repair on all your property",
+        "content":"FOR EACH HOUSE PAY 25$ FOR EACH HOTEL 100$",
+        "function": 13      
+    }
+]

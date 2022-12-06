@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="Author" content="Cezary Grzęda" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monopoly</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./Board/Board.css" />
+    <link rel="stylesheet" href="./Game/Player.css" />
+    <link rel="stylesheet" href="./Interface/Interface.css" />
+    <link rel="stylesheet" href="./Auction/Auction.css" />
+    <script  src="script.js" ></script>
+    <script  src="./Board/Board.js" ></script>
+    <script src="./Game/Game.js"></script>
+    <script src="./Game/Player.js"></script>
+    <script  src="./Field/Field.js" ></script>
+    <script  src="./Interface/Interface.js"></script>
+    <script src="./Auction/Auction.js"></script>
+    <script src="./Chance/Chance.js"></script>
+    <script src="./Community_Chest/Community_chest.js"></script>
+    <script src="./Players/AI.js"></script>
+    <script src="./Interface/History.js"></script>
+    <script src="./Auction/Bankrupcy.js"></script>
+</head>
+
+<body>
+<div id="root">
+    <div class="Board" id="Board">
+        <div class='Main' id="Main">
+            <p>Aktualna liczba graczy : <b id="ammountOfPlayers">0</b> </p>
+        
+            <div className="AddPlayer">
+                <form>
+                    <label htmlFor="fname">Name: </label>
+                    <input type="text" id="playerName" placeholder="Tomas" maxlength="15" name="fname" /><br />
+        
+                    <label htmlFor="IsPlayer">Player or AI ?</label><br />
+                    <select id="IsPlayer">
+                        <option value="Player">(Player)</option>
+                        <option value="AI">(AI)</option>
+                    </select><br />
+                </form>
+                <button key="btn2" onclick="addPlayerToList()">Add</button>
+            </div>
+        
+            <div id="StartButton"></div>
+        
+            <div class="PlayerList" id='PlayerList'></div>
+        </div>
+    </div>
+    
+
+</div>
+
+</body>

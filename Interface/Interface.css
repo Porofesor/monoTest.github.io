@@ -1,0 +1,84 @@
+#interface{
+    width: 100%;
+    height: 100%;
+}
+
+#interface__main{
+    display: grid;
+    
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    
+    gap: 10px;
+    height: 100%;
+
+}
+#interface__history{
+    grid-row-start: 1;
+    grid-column-start: 1;
+
+    grid-row-end: 3;
+    grid-column-end: 3;
+}
+#interface__current{
+    grid-row-start: 1;
+    grid-column-start: 3;
+    
+    grid-row-end: 3;
+    grid-column-end: 4;
+}
+
+#player__list{
+    grid-row-start: 1;
+    grid-column-start: 4;
+
+    grid-row-end: 3;
+    grid-column-end: 5;
+}
+#interface__bid__window{
+    position: absolute;
+    width: 90%;
+    height: 90%;
+}
+.player_info{
+    border: 1px solid white;
+}
+
+#current__player{
+    border: 1px solid white;
+}
+
+.player-0{
+    color:var(--player-1)
+}
+.player-1 {
+    color: var(--player-2)
+}
+.player-2 {
+    color: var(--player-3)
+}
+.player-3 {
+    color: var(--player-4)
+}
+p {
+    display:inline-block;
+}
+
+.interface__auction > *{
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    background-color: rgb(113, 113, 113);
+}
+
+textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    resize: none;
+    height: 100%;
+    border: 2px solid black;
+    font-size: 2vh;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
