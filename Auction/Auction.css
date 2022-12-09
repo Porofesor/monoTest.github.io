@@ -1,0 +1,175 @@
+.auction {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: grid;
+
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+    gap: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: #4b4b4b;
+
+}
+.auction p{
+    display: block;
+    margin: 10px 10px 10px 10px;
+}
+
+#auction__field__info{
+    display: flex;
+    flex-direction: column;
+    grid-row-start: 1;
+    grid-column-start: 1;
+    
+    grid-row-end: 3;
+    grid-column-end: 4;
+    font-size: 8vh;
+}
+
+#field__info {
+
+    background-color: #6DADB9;
+    grid-row-start: 1;
+    grid-column-start: 1;
+
+    grid-row-end: 3;
+    grid-column-end: 5;
+
+}
+
+#highest_bid {
+    display: flex;
+    background-color: #565656;
+    grid-row-start: 1;
+    grid-column-start: 4;
+    
+    grid-row-end: 3;
+    grid-column-end: 6;
+    font-size: 6vh;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+}
+#aution__player__info{
+    display: flex;
+    width: 20%;
+    color: black;
+}
+
+.player__info{
+    font-size: 4vh;
+    grid-row-start: 3;
+    grid-column-start: 1;
+    
+    grid-row-end: 5;
+    grid-column-end: 6;
+
+    display: grid;
+    
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.auction__player__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.player__info > *{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    color: black;
+}
+#player__info__0 {
+    background-color: var(--player-1);
+    grid-row-start: 1;
+    grid-column-start: 1;
+
+    grid-row-end: 2;
+    grid-column-end: 2;
+}
+
+#player__info__1 {
+
+    background-color: var(--player-2);
+    grid-row-start: 1;
+    grid-column-start: 2;
+
+    grid-row-end: 2;
+    grid-column-end: 3;
+}
+
+#player__info__2 {
+
+    background-color: var(--player-3);
+    grid-row-start: 1;
+    grid-column-start: 3;
+
+    grid-row-end: 2;
+    grid-column-end: 4;
+
+}
+
+#player__info__3 {
+
+    background-color: var(--player-4);
+    grid-row-start: 1;
+    grid-column-start: 4;
+
+    grid-row-end: 2;
+    grid-column-end: 5;
+
+}
+
+
+#player__buttons__0 {
+    background-color: var(--player-1);
+    grid-row-start: 2;
+    grid-column-start: 1;
+    
+    grid-row-end: 3;
+    grid-column-end: 2;
+
+}
+
+#player__buttons__1 {
+
+    background-color: var(--player-2);
+    grid-row-start: 2;
+    grid-column-start: 2;
+
+    grid-row-end: 3;
+    grid-column-end: 3;
+
+}
+
+#player__buttons__2 {
+
+    background-color: var(--player-3);
+    grid-row-start: 2;
+    grid-column-start: 3;
+
+    grid-row-end: 3;
+    grid-column-end: 4;
+
+}
+
+#player__buttons__3 {
+
+    background-color: var(--player-4);
+    grid-row-start: 2;
+    grid-column-start: 4;
+
+    grid-row-end: 3;
+    grid-column-end: 5;
+}
+
+.player__info button{
+    font-size: 3vh;
+    width: 50%;
+    height: 50%;
+}

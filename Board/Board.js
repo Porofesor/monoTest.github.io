@@ -27,7 +27,7 @@ async function CreateField() {
       case 'Bottom':
         FieldsArray=`
           <div class="Field-Upper-Bottom" id='item-${element.id}'>
-            <div class="ColoredBox-${element.country}"></div>
+            <div class="ColoredBox-${element.country}" id="ColoredBox-${element.id}"></div>
             <div class="field__name">${element.title}</div>
             <div class="Players_box" id='playerbox-${element.id}'></div>
       
@@ -42,25 +42,24 @@ async function CreateField() {
             
             <div class="Players_box" id='playerbox-${element.id}'></div>
             <div class="field__name">${element.title}</div>
-            <div class="ColoredBox-${element.country}"></div>
+            <div class="ColoredBox-${element.country}" id="ColoredBox-${element.id}"></div>
           </div>
         `
         break;
       case "Upper":
         FieldsArray=`
           <div class="Field-Upper-Bottom" id='item-${element.id}'>
-            <div class="field__price">$${element.property_value}</div>
-            
-            <div class="Players_box" id='playerbox-${element.id}'></div>
             <div class="field__name">${element.title}</div>
-            <div class="ColoredBox-${element.country}"></div>
+            <div class="field__price">$${element.property_value}</div>
+            <div class="Players_box" id='playerbox-${element.id}'></div>
+            <div class="ColoredBox-${element.country}" id="ColoredBox-${element.id}"></div>
           </div>
         `
         break;
       case "Right":
         FieldsArray=`
           <div class="Field-Left-Right" id='item-${element.id}'>
-            <div class="ColoredBox-${element.country}"></div>
+            <div class="ColoredBox-${element.country}" id="ColoredBox-${element.id}"></div>
             <div class="field__name">${element.title}</div>
             <div class="Players_box" id='playerbox-${element.id}'></div>
             

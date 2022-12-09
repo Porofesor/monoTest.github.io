@@ -61,9 +61,10 @@ const removeDiceResult = () => {
     document.getElementById('interface__dice__result').innerHTML = ``;
 }
 
+//Show buy house button //TO DO change arguments
 const updateBuyHouse = (player, field) => {
     document.getElementById('interface__buy__field').innerHTML = `
-    <button onclick="buyHouse(${player.id},${field.id})" class="buyField" id="buyField">Buy house</button>
+    <button onclick="buyHouse(${player.getPlayerId()},${field.getFieldId()})" class="buyField" id="buyField">Buy house</button>
     `
 }
 
@@ -95,4 +96,16 @@ const clearButtons = () => {
     document.getElementById('interface__buy__field').innerHTML = ``;
     removeBuyFieldButton();
     document.getElementById('interface__dice__endTurn').innerHTML = ``;
+}
+
+const addHouseToInterface = (fieldId) => {
+    document.getElementById(`ColoredBox-${fieldId}`).innerHTML += `<img alt="Prefab House icon" srcset="https://img.icons8.com/ios-filled/512/prefab-house.png 2x" style="width: 20%; height: 20%; filter: invert(0%) sepia(98%) saturate(9%) hue-rotate(325deg) brightness(106%) contrast(101%);">`
+}
+
+const removeHouseFromInterface = (fieldId) => {
+    const field = FIELDS_LIST[findFieldById(fieldId)];
+    let content = document.getElementById(`ColoredBox-${fieldId}`).innerHTML = ``;
+    for(let i=0; i<field.getHouseAmmount(); i++) {
+        content += `<img alt="Prefab House icon" srcset="https://img.icons8.com/ios-filled/512/prefab-house.png 2x" style="width: 20%; height: 20%; filter: invert(0%) sepia(98%) saturate(9%) hue-rotate(325deg) brightness(106%) contrast(101%);">`
+    }
 }

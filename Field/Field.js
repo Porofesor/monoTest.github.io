@@ -1,3 +1,5 @@
+let field_family = new Map();
+
 class Field {
     constructor(element) {
         this.Field_id = element.id;
@@ -16,6 +18,20 @@ class Field {
         this.Field_house_ammount = 0;
         this.Field_price_for_house = element.price_for_house;
         this.Field_country = element.country;
+        
+        //Add field to map that stores setts of fields needed for checking if player has all fields from certin kind
+        let key = element.country;
+        if(!(field_family.has(key))){
+            field_family.set(key, element.id)
+        }else{
+            field_family.set(key,[field_family.get(key),element.id])
+        }
+        //console.log(field_family)
+
+        
+        //field_family.forEach(logMapElements);
+
+           
     }
 
     getFieldId() {
@@ -47,6 +63,9 @@ class Field {
     getFieldTitle() {
         return this.title;
     }
+    getFieldFamily(){
+        return this.Field_country;
+    }
     addHouse() {
         this.Field_house_ammount += 1;
         return
@@ -56,3 +75,7 @@ class Field {
         this.Field_ownerId = newOwnerId;
     }
 }
+
+function logMapElements(value, key, map) {
+    console.log(`m[${key}] = ${value}`);
+  }

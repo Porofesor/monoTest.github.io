@@ -3,7 +3,7 @@
 
 class AI {
     rankedField = []
-    constructor(Name, Type, id, money = 1000) {
+    constructor(Name, Type, id, money = 10000) {
         this.Name = Name;
         this.Type = Type;
         this.id = id;

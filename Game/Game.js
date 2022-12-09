@@ -1,4 +1,4 @@
-//TO DO !!! ADD CURRENT PLAYER !!!
+//TO DO !!! ADD CURRENT PLAYER and change other functions!!!
 let CURRENT_PLAYER;
 let PLAYERS = []  //players list
 let IsGameGoing = true;
@@ -147,7 +147,9 @@ const checkField = (player) => {
         //Buy house //interface
         //Might not work properly
         console.log("3")
-        updateBuyHouse(player, Field)
+        if(checkFieldFamily(player.getPlayerId(), field.getFieldId())){
+            updateBuyHouse(player, Field)
+        }
     }
     //if its jail 
     //TO DO change out_of_jail to USE_OUT_OF_JAIL_CARD
@@ -242,6 +244,11 @@ const buyHouse = (playerId, fieldId) => {
     //if someone else owns it (just in case)
     if (field.getFieldOwnerId() != player.getPlayerId()) {
         console.log("Someone else owns field");
+        return;
+    }
+    //check if player has all fields from family
+    if(!player.fieldsOwned.includes(field_family.get(field.getFieldFamily()))){
+        console.log("Player has not all fields from family");
         return;
     }
 
@@ -376,12 +383,17 @@ const buyField = (playerId, fieldId , value = 0) => {
     //Change background //Interface
     changeBackGroundColor(playerId, field)
 
+    //show buy house button //TO DO chane arguments
+    if(checkFieldFamily(playerId, fieldId)){
+        updateBuyHouse(player, field)
+    }
+
     //Show in history
     buyFieldHistory(playerId, fieldId, value);
 
     PLAYERS[findPlayerById(playerId)] = player;
     FIELDS_LIST[findFieldById(fieldId)] = field;
-    console.log("test cheat, after ",PLAYERS[findPlayerById(playerId)])
+    //console.log("test cheat, after ",PLAYERS[findPlayerById(playerId)])
 
 }
 //startGame()
@@ -389,4 +401,17 @@ const buyField = (playerId, fieldId , value = 0) => {
 function sleep(delay) {
     var start = new Date().getTime();
     while (new Date().getTime() < start + delay);
+}
+
+//Check if player has all fields in family
+const checkFieldFamily = (playerId, fieldId) =>{
+    let player = PLAYERS[findPlayerById(playerId)];
+    let field = FIELDS_LIST[findFieldById(fieldId)];
+
+    if(!player.fieldsOwned.includes(field_family.get(field.getFieldFamily()))){
+        console.log("Player has not all fields from family");
+        return false;
+    }else{
+        return true;
+    }
 }

@@ -29,29 +29,29 @@
 <div id="root">
     <div class="Board" id="Board">
         <div class='Main' id="Main">
-            <p>Aktualna liczba graczy : <b id="ammountOfPlayers">0</b> </p>
-        
-            <div className="AddPlayer">
-                <form>
-                    <label htmlFor="fname">Name: </label>
-                    <input type="text" id="playerName" placeholder="Tomas" maxlength="15" name="fname" /><br />
-        
-                    <label htmlFor="IsPlayer">Player or AI ?</label><br />
-                    <select id="IsPlayer">
-                        <option value="Player">(Player)</option>
-                        <option value="AI">(AI)</option>
-                    </select><br />
-                </form>
-                <button key="btn2" onclick="addPlayerToList()">Add</button>
+            <div>
+                <p>Aktualna liczba graczy : <b id="ammountOfPlayers">0</b> </p>
+            
+                <div className="AddPlayer">
+                    <form>
+                        <label htmlFor="fname">Name: </label>
+                        <input type="text" id="playerName" placeholder="Tomas" maxlength="15" name="fname" /><br />
+            
+                        <label htmlFor="IsPlayer">Player or AI ?</label><br />
+                        <select id="IsPlayer">
+                            <option value="Player">(Player)</option>
+                            <option value="AI">(AI)</option>
+                        </select><br />
+                    </form>
+                    <button key="btn2" onclick="addPlayerToList()">Add</button>
+                </div>
+            
+                <div id="StartButton"></div>
+            
+                <div class="PlayerList" id='PlayerList'></div>
             </div>
-        
-            <div id="StartButton"></div>
-        
-            <div class="PlayerList" id='PlayerList'></div>
         </div>
     </div>
-    
-
 </div>
 
 </body>
