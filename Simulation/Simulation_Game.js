@@ -20,11 +20,11 @@ const createPlayers = () => {
         if (element.Type == "AI") {
             const p = new AI(element.Name, element.Type, i)
             PLAYERS.push(p)
-            console.log("create ai",p)
+            //console.log("create ai",p)
         } else {
             const p = new Player(element.Name, element.Type, i)
             PLAYERS.push(p)
-            console.log("create player",p)
+            //console.log("create player",p)
         }
         i = i + 1;
     })
@@ -94,11 +94,11 @@ const roll_dice = (playerId) => {
     // let dice2 = Math.floor(Math.random() * 6);
     let dice1 = (Math.random() * 6)+1;
     let dice2 = (Math.random() * 6)+1;
-    console.log("original dice roles ", dice1, " ", dice2)
+    //console.log("original dice roles ", dice1, " ", dice2)
 
     dice1 = Math.floor(dice1)
     dice2 = Math.floor(dice2)
-    console.log("after round dice roles ", dice1, " ", dice2)
+    //console.log("after round dice roles ", dice1, " ", dice2)
 
     //If double add one more move or take one //Player
     // console.log(player)
@@ -107,13 +107,13 @@ const roll_dice = (playerId) => {
     // else player.decreseMove();
 
     //Interface
-    updateDiceResult(dice1, dice2);
+    //updateDiceResult(dice1, dice2);
 
     //Player // change position on board and check if passed "go"
     player.updatePlayerPosition(dice1 + dice2)
     
     //Show dice rolle in history
-    diceRolleHistory(playerId, dice1, dice2);
+    //diceRolleHistory(playerId, dice1, dice2);
     
     //Check if
     checkField(player)
@@ -131,23 +131,23 @@ const firstTurn = () => {
 //After you enter field, check everything
 const checkField = (player) => {
     let Field = FIELDS_LIST[(player.getCurrentPositionId())];
-    console.log(Field)
-    console.log(player)
+    //console.log(Field)
+    //console.log(player)
     //if Nobody owns it and can be bought // 1 = can be bought, 0 = can't be bought
     if (Field.getFieldOwnerId() == "None" && Field.getFieldFunction() == 1) {
-        console.log("1")
+        //console.log("1")
         buyFieldButton(player.getPlayerId(), Field.getFieldId())
     }
     //if someone else own it
     if (Field.getFieldOwnerId() != "None" && Field.getFieldOwnerId() != player.getPlayerId() && Field.getFieldFunction()==1) {
-        console.log("2")
+        //console.log("2")
         penalty(player, Field);
     }
     //if current player owns it
     if (Field.getFieldOwnerId() === player.getPlayerId()) {
         //Buy house //interface
         //Might not work properly
-        console.log("3")
+        //console.log("3")
         if(checkFieldFamily(player.getPlayerId(), Field.getFieldId())){
             updateBuyHouse(player, Field)
         }
@@ -155,7 +155,7 @@ const checkField = (player) => {
     //if its jail 
     //TO DO change out_of_jail to USE_OUT_OF_JAIL_CARD
     if (Field.getFieldFunction() == "Jail") {
-        console.log("4")
+        //console.log("4")
         if (player.OutofJail > 0) {
             player.OutofJail -= 1;
         } else {
@@ -170,7 +170,7 @@ const checkField = (player) => {
     if (Field.getFieldFunction() == "Chance") {
         //Chance.js
         chanceCard(player.getPlayerId())
-        console.log("5")
+        //console.log("5")
         //Test if after going to jail fields swaps
         return;
     }
@@ -178,7 +178,7 @@ const checkField = (player) => {
     if (Field.getFieldFunction() == "Chest") {
         //Chance.js
         chestCard(player.getPlayerId())
-        console.log("6")
+        //console.log("6")
         //Test if after going to jail fields swaps
         return;
     }
@@ -204,28 +204,28 @@ const penalty = (player, field) => {
 
 //Returns player position in PLAYERLIST using id
 const findPlayerById = (id) => {
-    console.log("findPlayerByID = ", id)
+    //console.log("findPlayerByID = ", id)
     for (let i = 0; i < PLAYERS.length; i++) {
         if (PLAYERS[i].getPlayerId() == id) {
-            console.log("player (id) position is: ",i)
+            //console.log("player (id) position is: ",i)
             return i;
         }
     }
-    alert("player  id not found with id ", id)
+    //alert("player  id not found with id ", id)
     return i
 }
 
 //Find field by id 
 const findFieldById = (id) => {
-    console.log("findFieldById:", id)
-    console.log(FIELDS_LIST);
+    //console.log("findFieldById:", id)
+    //console.log(FIELDS_LIST);
     for (let i = 0; i < FIELDS_LIST.length; i++) {
         if (FIELDS_LIST[i].getFieldId() == id) {
             console.log("find field by id: ", i)
             return i;
         }
     }
-    alert("field id not found")
+    //alert("field id not found")
     return i
 }
 
@@ -239,28 +239,28 @@ const buyHouse = (playerId, fieldId) => {
 
     //if nobody owns id (just in case)
     if (field.getFieldOwnerId() == "None") {
-        console.log("Nobody owns field");
+        //console.log("Nobody owns field");
         return;
     }
     //if someone else owns it (just in case)
     if (field.getFieldOwnerId() != player.getPlayerId()) {
-        console.log("Someone else owns field");
+        //console.log("Someone else owns field");
         return;
     }
     //check if player has all fields from family
     if(!player.fieldsOwned.includes(field_family.get(field.getFieldFamily()))){
-        console.log("Player has not all fields from family");
+        //console.log("Player has not all fields from family");
         return;
     }
 
     //Not enough money
     if (player.getMoney() < field.getFieldPropertyValue()) {
-        console.log("Not enought money");
+        //console.log("Not enought money");
         return;
     }
 
     if (field.getHouseAmmount() >= 8) {
-        console.log("Max ammount of houses")
+        //console.log("Max ammount of houses")
         return
     }
     //Buy house
@@ -268,17 +268,17 @@ const buyHouse = (playerId, fieldId) => {
     player.payMoney(field.getPriceForHouse())
 
     //show in interface
-    buyHouseHistory(playerId, fieldId)
+    //buyHouseHistory(playerId, fieldId)
 
     //Interface update player list info
-    updatePlayerList(PLAYERS)
+    //updatePlayerList(PLAYERS)
     //Add house
     field.addHouse()
 
     PLAYERS[findPlayerById(playerId)] = player;
     FIELDS_LIST[findFieldById(fieldId)] = field;
     
-    console.log("House was added", field.getHouseAmmount())
+    //console.log("House was added", field.getHouseAmmount())
 }
 
 //TO DO bid the field
@@ -325,9 +325,9 @@ const endTurn = (playerId) => {
     // console.log(playerPosition, " --_--", field)
     // console.log("koniec tury field:",field)
     if (field.getFieldOwnerId() == "None") {
-        console.log("LICYTACJA")
+        //console.log("LICYTACJA")
         //Show auction in history
-        startAuctionHistory(playerId, field.getFieldId())
+        //startAuctionHistory(playerId, field.getFieldId())
         //Start auction
         startAuction(playerId, field)
         return;
@@ -336,9 +336,9 @@ const endTurn = (playerId) => {
     //creates intrface for next player //interface
     //CURRENT_PLAYER = playerId;
     if (PLAYERS[findNextPlayer(playerId)].Type == "AI") {
-        console.log("end turn tw:", PLAYERS[findNextPlayer(playerId)])
+        //console.log("end turn tw:", PLAYERS[findNextPlayer(playerId)])
         //sleep(1000);
-        clearButtons();
+        //clearButtons();
         PLAYERS[findNextPlayer(playerId)].startTurn();
         return;
     }
@@ -354,8 +354,8 @@ const endTurn = (playerId) => {
 //TO DO change alert
 //TO DO test cheat
 const buyField = (playerId, fieldId , value = 0) => {
-    console.log("buy field ids: ", playerId," ",fieldId)
-    console.log("test cheat, ", PLAYERS[findPlayerById(playerId)])
+    //console.log("buy field ids: ", playerId," ",fieldId)
+    //console.log("test cheat, ", PLAYERS[findPlayerById(playerId)])
     let player = PLAYERS[findPlayerById(playerId)];
     let field = FIELDS_LIST[findFieldById(fieldId)];
 
@@ -365,7 +365,7 @@ const buyField = (playerId, fieldId , value = 0) => {
 
     //If not enough money
     if (player.getMoney() < value) {
-        alert("Not enough money")
+        //alert("Not enough money")
         return
     }
 
@@ -386,18 +386,18 @@ const buyField = (playerId, fieldId , value = 0) => {
     //Add to player fields list
     player.addToFieldList(field.getFieldId());
     //Remove button to buy field
-    removeBuyFieldButton()
+    //removeBuyFieldButton()
 
     //Interface update player list info
-    updatePlayerList(PLAYERS)
+    //updatePlayerList(PLAYERS)
     
     //Change background //Interface
-    changeBackGroundColor(playerId, field)
+    //changeBackGroundColor(playerId, field)
 
     //show buy house button //TO DO chane arguments
-    if(checkFieldFamily(playerId, fieldId)){
-        updateBuyHouse(player, field)
-    }
+    // if(checkFieldFamily(playerId, fieldId)){
+    //     updateBuyHouse(player, field)
+    // }
 
     //Show in history
     buyFieldHistory(playerId, fieldId, value);

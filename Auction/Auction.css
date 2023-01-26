@@ -1,4 +1,5 @@
 .auction {
+    z-index: 10;
     position: fixed;
     bottom: 0;
     right: 0;
@@ -60,6 +61,90 @@
     color: black;
 }
 
+.field__wraper{
+    border: solid #494949 1px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.field__wraper >div {
+    width: 100% !important;
+    height: 20% !important;
+    margin: 0;
+}
+
+
+.interface__bankrupcy__announce{
+    width: 100%;
+    height: 15%;
+    font-size: 10vh;
+    text-align: center;
+}
+.interface__bankrupcy_container{
+   z-index: 10;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    gap: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: #4b4b4b; 
+}
+#interface__bankrupcy__playerName{
+    width: 100%;
+    font-size: 9vh;
+    text-align: center;
+
+}
+#interface__bankrupcy__Money{
+    width: 100%;
+    font-size: 9vh;
+    text-align: center;
+    
+}
+#interface__bankrupcy__fields{
+    overflow:hidden;
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;    
+}
+.interface__bankrupcy__field__info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: red solid 1px;
+    width: 20%;
+    height: auto;
+}
+.interface__bankrupcy__field__info *{
+    color: rgb(15, 15, 15);
+    font-size: 6vh;
+    
+}
+.interface__bankrupcy__field__info  button{
+    color: rgb(29, 29, 29);
+    font-size: 3vh;
+}
+.interface__bankrupcy__text{
+    justify-content: center;
+    text-align: center;
+    font-size: 8vh;
+    color: rgb(12, 12, 12);
+}
+
+#interface__bankrupcy__Buttons{
+
+}
 .player__info{
     font-size: 4vh;
     grid-row-start: 3;

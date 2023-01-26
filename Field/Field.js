@@ -70,6 +70,10 @@ class Field {
         this.Field_house_ammount += 1;
         return
     }
+    decreseHouse(ammount = 1) {
+        this.Field_house_ammount -= ammount;
+        return
+    }
     
     changeOwner(newOwnerId) {
         this.Field_ownerId = newOwnerId;

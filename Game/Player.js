@@ -1,5 +1,5 @@
 class Player {
-    constructor(Name, Type, id, money=100000) {
+    constructor(Name, Type, id, money=1000) {
         this.Name = Name;
         this.Type = Type;
         this.id = id;
@@ -25,7 +25,10 @@ class Player {
         console.log("new position= ", newPosition, "_", dice_result, "+", this.currentPositionId, "%39");
 
         //Pass throu "GO"
-        if (this.currentPositionId >= newPosition || newPosition==0) this.enterStartField();
+        if (this.currentPositionId >= newPosition || newPosition==0){
+            this.enterStartField();
+            if(newPosition !=0 ) newPosition-=1; //Eliminates bug with going one position too far
+        } 
         
         //Remove from prev position (MIGHT NOT WORK)
         document.getElementById(`player-${this.id}`).outerHTML = "";
@@ -95,6 +98,9 @@ class Player {
 
     payMoney(ammount) {
         this.money -= ammount;
+        if (this.money < 0) {
+            bankrupcy(this);
+        }
     }
 
     addMoney(ammount) {

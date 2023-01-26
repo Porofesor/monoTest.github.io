@@ -66,7 +66,6 @@ const chanceCard = (playerId) => {
             alert("something went wrong chance switch",card.function)
     }
     chanceHistory(playerId, card.content)
-
 }
 
 //When to just change position and when go thru the board

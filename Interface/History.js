@@ -1,8 +1,9 @@
 const diceRolleHistory = (playerId,diceRolle1, diceRolle2) => {
     const player = PLAYERS[findPlayerById(playerId)];
     const textArea = document.getElementById('interface__history__textarea');
+    const fieldName = FIELDS_LIST[findFieldById(player.getCurrentPositionId())].getFieldTitle();;
 
-    textArea.innerHTML += `Player: ${player.getPlayerName()} throws: ${diceRolle1} and ${diceRolle2}\r\n`;
+    textArea.innerHTML += `Player: ${player.getPlayerName()} throws: ${diceRolle1} and ${diceRolle2}, enters ${fieldName} \r\n`;
 }
 
 const buyFieldHistory = (playerId, fieldId, value) => {
