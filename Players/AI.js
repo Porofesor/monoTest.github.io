@@ -198,23 +198,24 @@ class AI {
         let prop_rank = this.rankedField[field.getFieldId()];
         let current_money = this.money;
     
-        const w1 = 0.2;
+        const w1 = 0.4;
         const w2 = 0.6;
         const w3 = 0.5;
         const w4 = 0.1;
 
         const nw1 = 0.9;
-        const nw2 = (prop_rank / 40) + w2;
+        const nw2 = (prop_rank / 40);
     
         const r1 = ((current_money - prop_val) * w1);
         const r2 = r1 * nw2;
 
         const rn1 = (current_money - prop_val) * nw1;
-        const rn2 = -((current_money - prop_val))
+        const rn2 = -((current_money - prop_val)* nw2);
+        const rn3 = (current_money * w4)
     
-        console.log("buy field decision=", (r1 + r2), ">", (rn1 + rn2));
+        console.log("buy field decision=", (r1 + r2), ">", (rn1 + rn2 + rn3));
         //TO DO >    ->  <
-        if ((r1 + r2) > (rn1 + rn2)) {
+        if ((r1 + r2) > (rn1 + rn2 + rn3)) {
             //BUY
             return 1;
         } else {
@@ -224,8 +225,9 @@ class AI {
     }
 
     //TO DO finish this
-    decisionSellField(field, prop_val = field.getFieldPropertyValue()) {
+    decisionSellField(field) {
         let prop_rank = this.rankedField[field.getFieldId()];
+        prop_val = field.getFieldPropertyValue()
         let current_money = field.getFieldPropertyValue() * 2;
         
         const w1 = 0.4;
@@ -233,18 +235,19 @@ class AI {
         const w3 = 0.5;
         const w4 = 0.1;
 
-        const nw1 = countFieldFamily(this.id, field.getFieldId());
-        const nw2 = (prop_rank / 40) + w2;
+        const nw1 = 0.9;
+        const nw2 = (prop_rank / 40);
     
         const r1 = ((current_money - prop_val) * w1);
         const r2 = r1 * nw2;
 
         const rn1 = (current_money - prop_val) * nw1;
-        const rn2 = -((current_money - prop_val))
+        const rn2 = -((current_money - prop_val)* nw2);
+        const rn3 = (current_money * w4)
     
-        console.log("sell field decision=", (r1 + r2), "-", (rn1 + rn2));
+        console.log("sell field decision=", (r1 + r2), "-", (rn1 + rn2 + rn3));
         //TO DO >    ->  <
-        return (r1 + r2) - (rn1 + rn2);
+        return (r1 + r2) - (rn1 + rn2 + rn3);
     }
 
     //decision to buy a house
