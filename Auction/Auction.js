@@ -126,6 +126,18 @@ const nextBider = () => {
         printInHistory("Nobody bought field in auction")
 
         //prepare for next player to move
+        //If other player was owner of field
+        if(auction_field.getFieldOwnerId() !=   "None"){
+            //give player money for his field
+            PLAYERS[findPlayerById(fieldId.getFieldOwnerId())].addMoney(auction_field.getFieldPropertyValue()/2);
+            //remove field from list of his fields
+            PLAYERS[findPlayerById(fieldId.getFieldOwnerId())].fieldsOwned.filter(item => item !== fieldId)   
+            //Give field to "bank" 
+            auction_field.Field_ownerId = "None";
+            //Go back to bankrupcy autcion if it continues
+            goBackToBankrupcyAuction();
+            return;
+        }
         prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER)])
         return;
     }
@@ -140,6 +152,8 @@ const nextBider = () => {
             //highest_bider = "None";
             return
         }
+        //get previous owner // needed to prevent bug 
+        const prevOwner = auction_field.getFieldOwnerId()
         //buy field
         buyField(highest_bider, auction_field.getFieldId(), highest_bid)
         
@@ -151,7 +165,10 @@ const nextBider = () => {
         endAuctionHistory(highest_bider, highest_bid)
 
         //prepare for next player to move
-        prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER)])
+        //if owner was "none" //added after bug with selling other player field
+        if(prevOwner == "None") {
+            prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER)])
+        }
         //highest_bider = "None";
         return;
     }

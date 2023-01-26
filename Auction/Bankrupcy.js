@@ -1,10 +1,27 @@
 let losers = [];
 //execute after player has less than 0 money
 const bankrupcy = (player) => {
+    console.log("Start baunkrupcy", player)
     //PLAYERS = PLAYERS.filter(item => item !== player)
-    player.decreseMove(99999)
-    printInHistory("Player lost: ", player.getPlayerName());
-    losers.push(player);
+
+    if(player.fieldsOwned.length == 0){
+        player.decreseMove(99999)
+        printInHistory("Player lost: ", player.getPlayerName());
+        losers.push(player);
+    }else{
+        //Opens panel for selling fields and houses
+        if(player.Type ==="AI"){
+            //AI auction
+            player.bankrupcy();
+        }else{
+            //player auction
+            starBankrupcyAuction(player.getPlayerId());
+        }
+    }
+
+    if(player.getMoney() >= 0){
+        return;
+    }
 
     //this should never be here, it might create a massive bug
     //prepareNextPlayer(PLAYERS[findNextPlayer(player.getPlayerId())])

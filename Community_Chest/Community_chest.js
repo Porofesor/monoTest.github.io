@@ -6,7 +6,7 @@ let CHEST_CARDS;
 
 async function CreateChestCards() {
     //Get fields from json
-    const response = await fetch('./Chance/Chance.json');
+    const response = await fetch('./Community_chest/Community_chest.json');
     const Cards = await response.json();
     //Get fields to global list for later
     CHEST_CARDS = Cards

@@ -10,7 +10,7 @@ const createinterface = () => {
     <div class="interface" id='interface'>
         <div id='interface__main'>
             <div id="interface__history">
-                    <textarea id="interface__history__textarea" name="history"></textarea>
+                    <textarea id="interface__history__textarea" contenteditable="true" name="history"></textarea>
             </div>
             <div id="interface__current">
                 <div id="current__player"></div>
@@ -21,6 +21,7 @@ const createinterface = () => {
             <div id="players__list">t</div>
         </div>
         <div id="interface__auction"></div>
+        <div id="interface__bankrupcy"></div>
         <div id="interface__players__info"></div>
     </div>`
 }
