@@ -1,0 +1,15 @@
+b1: 
+PODWÓJNY RZUT KOSTKĄ
+po klikniciu buy field nie udalo sie kupic pola
+rzut kostka nie rozpoczoł aukcji
+
+b2:
+brak wyświetlania histori karty
+
+b3:
+Ilosc  pieniedzy nie zmienia sie po kazdej zmianie wartosci
+
+b5 rozpoczeta licytacja o koleje, nikt nie kupil, pieniade otrzymane,
+ KOLOR SIE NIE ZMIENIŁ
+ 
+ b6: nadal mozna ominac licytacje przy double;u
