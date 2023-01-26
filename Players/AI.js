@@ -226,7 +226,7 @@ class AI {
     //TO DO finish this
     decisionSellField(field, prop_val = field.getFieldPropertyValue()) {
         let prop_rank = this.rankedField[field.getFieldId()];
-        let current_money = field.getFieldPropertyValue()*2;
+        let current_money = field.getFieldPropertyValue() * 2;
         
         const w1 = 0.4;
         const w2 = 0.6;
@@ -242,15 +242,9 @@ class AI {
         const rn1 = (current_money - prop_val) * nw1;
         const rn2 = -((current_money - prop_val))
     
-        console.log("buy field decision=", (r1 + r2), ">", (rn1 + rn2));
+        console.log("sell field decision=", (r1 + r2), "-", (rn1 + rn2));
         //TO DO >    ->  <
-        if ((r1 + r2) > (rn1 + rn2)) {
-            //BUY
-            return 1;
-        } else {
-            //DON'T BUY
-            return 0;
-        }
+        return (r1 + r2) - (rn1 + rn2);
     }
 
     //decision to buy a house
@@ -391,7 +385,7 @@ class AI {
         const PropertyValues = new Map();
         this.fieldsOwned.forEach(element => {
             let field = findFieldById(element);
-            let propVal = decisionSellField(field);
+            let propVal = this.decisionSellField(field);
             propVal = propVal * field.getHouseAmmount();
 
             PropertyValues.set(element, propVal);
