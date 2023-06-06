@@ -12,7 +12,8 @@ const bankrupcy = (player) => {
         //Opens panel for selling fields and houses
         if(player.Type ==="AI"){
             //AI auction
-            player.bankrupcy();
+            if(player.fieldsOwned.length > 0 && player.getMoney() < 0)
+                player.bankrupcy();
         }else{
             //player auction
             starBankrupcyAuction(player.getPlayerId());
@@ -36,7 +37,9 @@ const bankrupcy = (player) => {
         //winner[0].decreseMove(99999)
         console.log(PLAYERS)
         console.log(FIELDS_LIST)
-        throw new Error("Game was stoped!");
-        return;
+        IsGameGoing = false;
+        return player;
+        //throw new Error("Game was stoped!");
+        
     }
 }

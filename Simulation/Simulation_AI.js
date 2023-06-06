@@ -1,20 +1,26 @@
 //rankedField =array with rnked fields
 //rankFields = function that ranks fields
 
-class AI {
+class sim_AI {
     rankedField = []
-    constructor(Name, Type, id, money = 1000) {
-        this.Name = Name;
-        this.Type = Type;
+    constructor(id, money = 1000) {
+        //this.Name = Name;
+        this.Type = "AI";
         this.id = id;
         this.money = money;
         this.currentPositionId = 0;
         this.moves = 1;
         this.fieldsOwned = []
         this.OutofJail = 0;
+        this.weight = [];
         //Test
         for (let i = 0; i < 40; i++) {
             this.rankedField.push(i);
+        }
+        for (let i = 0 ; i < 6 ; i++){
+            const rand = Math.random()*(2.0 - 0.1) + 0.1; // max - min + min
+            const power = Math.pow(10, 2); //10, decimalPlaces
+            this.weight.push( Math.floor(rand*power) / power );
         }
         this.simulateMoves(1000);
     }
@@ -133,7 +139,7 @@ class AI {
             if (this.decisionBuyField(Field, Field.getFieldPropertyValue())) {
                 //Buy field
                 //console.log("field bought")
-                buyField(this.id, Field.getFieldId())
+                sim_buyField(this.id, Field.getFieldId())
             } else {
                 //console.log("field wasnt bought");
             }
@@ -275,7 +281,8 @@ class AI {
             this.checkField();
         }
         //game
-        endTurn(this.id)
+        sim_endTurn(this.id)
+        return;  
     }
 
     addMoney(ammount) {
@@ -385,33 +392,41 @@ class AI {
 
     //TO DO change propVal 
     bankrupcy(){
+        alert("AI Bankrupcy wasnt tested properly yet");
+
         const decision = new Map();
         const PropertyValues = new Map();
         this.fieldsOwned.forEach(element => {
             let field = findFieldById(element);
-            let propVal = decisionSellField(field);
+            let propVal = this.decisionSellField(field);
             propVal = propVal * field.getHouseAmmount();
 
-            PropertyValues.set(propVal , element, 1);
+            PropertyValues.set(element, propVal);
         });
 
         //Sort mapby keys
-        const sortedPropertyValues = Object.keys(map.sort().reduce((a,b) => (a[k] = map[a], b), {}));
-        //console.log(sortedPropertyValues, " :sorted property values");
+        const sortedPropertyValues = new Map([...PropertyValues].sort((a, b) => b[1] - a[1]));
+        console.log(sortedPropertyValues, " :sorted property values");
         
+
         //sell houses
         for(let [key, value] of sortedPropertyValues){
-            let field = findFieldById(value);
+            let field = findFieldById(key);
             if(field.getHouseAmmount() == 0){
                 continue;
             }
             else{
-                PropertyValues.set(key, val, 0)
+                while(field.getHouseAmmount()!=0 && this.getMoney() < 0){
+                    field.decreseHouse();
+                    this.addMoney(200);
+                }
             }
         }
 
-        while(this.money < 0){
-            
+        for(let [key, value] of sortedPropertyValues){
+           if(this.getMoney()>0) break; 
+           startAuction(this.getPlayerId(), key);            
         }
+        return
     }
 }

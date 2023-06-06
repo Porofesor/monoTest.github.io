@@ -34,7 +34,7 @@ class Player {
         document.getElementById(`player-${this.id}`).outerHTML = "";
     
         //Add Player to new Field
-        document.getElementById(`playerbox-${newPosition}`).innerHTML += `<div class='player' id='player-${this.id}'>${this.id}</div>`
+        document.getElementById(`playerbox-${newPosition}`).innerHTML += `<div class='player' id='player-${this.id}'>${this.id + 1}</div>`
     
         //Update position
         this.currentPositionId = newPosition;
@@ -101,10 +101,12 @@ class Player {
         if (this.money < 0) {
             bankrupcy(this);
         }
+        updatePlayerList();
     }
 
     addMoney(ammount) {
         this.money += ammount;
+        updatePlayerList();
     }
 
     addField(fieldId) {

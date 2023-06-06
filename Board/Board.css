@@ -7,6 +7,20 @@
         width: 100%;
 }
 
+.Hidden {
+    display: none;
+    overflow: hidden;
+    width: 200px;
+    height: 400px;
+}
+
+
+.Field-Upper-Bottom:hover .Hidden {
+    position: fixed;
+    display:none;
+    
+}
+
 .field__name {
     font-size: 1vw;
 }

@@ -27,6 +27,15 @@ async function CreateField() {
       case 'Bottom':
         FieldsArray=`
           <div class="Field-Upper-Bottom" id='item-${element.id}'>
+            <div class="Hidden">
+            <div class="Field-Upper-Bottom">
+              <div class="ColoredBox-${element.country}"></div>
+              <div class="field__name">${element.title}</div>
+              <div class="Players_box"></div>
+              <div class="probablility></div>
+              <div class="field__price">$${element.property_value}</div>
+          </div>
+            </div>
             <div class="ColoredBox-${element.country}" id="ColoredBox-${element.id}"></div>
             <div class="field__name">${element.title}</div>
             <div class="Players_box" id='playerbox-${element.id}'></div>

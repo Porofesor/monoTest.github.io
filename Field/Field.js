@@ -21,11 +21,13 @@ class Field {
         
         //Add field to map that stores setts of fields needed for checking if player has all fields from certin kind
         let key = element.country;
-        if(!(field_family.has(key))){
-            field_family.set(key, element.id)
-        }else{
-            field_family.set(key,[field_family.get(key),element.id])
-        }
+        if (!field_family.has(key)) {
+            field_family.set(key, [element.id]);
+          } else {
+            let existingValues = field_family.get(key);
+            existingValues.push(element.id);
+            field_family.set(key, existingValues);
+          }
         //console.log(field_family)
 
         
@@ -37,7 +39,6 @@ class Field {
     getFieldId() {
         return this.Field_id;
     }
-
     getFieldOwnerId() {
         return this.Field_ownerId
     }

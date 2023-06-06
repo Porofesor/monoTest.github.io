@@ -3,7 +3,7 @@ const player_color = [`rgba(255, 0, 0, 1)`, `rgba(208, 255, 0,1)`, `#4EABDB`, `r
 
 
 //Create interface to display and interact with game
-const createinterface = () => {
+const createInterface = () => {
     const controlPanel = document.getElementById("ControlPanel");
     
     controlPanel.innerHTML = `
@@ -70,7 +70,7 @@ const updateBuyHouse = (player, field) => {
 }
 
 const updateCurrentPlayer = (player) => {
-    document.getElementById('current__player').innerHTML = `<p class="player-${findPlayerById(player.getPlayerId())}">Current player: 
+    document.getElementById('current__player').innerHTML = `<p class="player-${player.getPlayerId()}">Current player: 
     ${player.getPlayerName()}</p>
     `
 }
@@ -82,8 +82,8 @@ const updateCurrentPlayer = (player) => {
 const updatePlayerList = (list) => {
     document.getElementById("players__list").innerHTML = ""
     let i = 1;
-    list.forEach(element => {
-        document.getElementById("players__list").innerHTML+=`<div class="player_info"><p class="player-${findPlayerById(element.getPlayerId())}">${element.getPlayerName()} ${i}: </p><p>${element.getMoney()} $</P></div>`
+    PLAYERS.forEach(element => {
+        document.getElementById("players__list").innerHTML+=`<div class="player_info"><p class="player-${element.getPlayerId()}">${element.getPlayerName()} ${i}: </p><p>${element.getMoney()} $</P></div>`
         i += 1;
     });
 }
