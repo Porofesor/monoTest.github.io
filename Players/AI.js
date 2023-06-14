@@ -12,6 +12,8 @@ class AI {
         this.moves = 1;
         this.fieldsOwned = []
         this.OutofJail = 0;
+        this.Turn_counter = 0;
+
         this.stableProbabilities = [];
         this.w1 = Math.random() * (34 - 30) + 30;//32
         this.w2 = Math.random() * (1.3 - 1) + 1;;//1.1
@@ -129,11 +131,32 @@ class AI {
         //Dice result
         let dice1 = Math.floor((Math.random() * 6) + 1);
         let dice2 = Math.floor((Math.random() * 6) + 1);
-        console.log("AI throws ", dice1, " ", dice2);
+        //console.log("AI throws ", dice1, " ", dice2);
+        
+        if(this.Turn_counter > 0){ //if player had double, moved to field and moved again without buying field
+            let field = FIELDS_LIST[this.getCurrentPositionId()]
+            if (field.getFieldOwnerId() == "None") {
+                console.log("LICYTACJA")
+                //Show auction in history
+                startAuctionHistory(this.id, field.getFieldId())
+                //Start auction
+                startAuction(this.id, field)
+            }
+        }
 
+        this.Turn_counter ++;
         //If double
-        if (dice1 != dice2) this.decreseMove();
-
+        if (dice1 != dice2){
+            this.decreseMove();
+        }else{
+            if(this.Turn_counter == 3){
+                this.sendPlayerTo(30); //if 3 doubles send player to jail 
+                updateDiceResult(dice1, dice2);
+                diceRolleHistory(this.id, dice1, dice2);
+                return;
+            }
+            
+        }
         //Calc new position
         let newPosition = ((dice1 + dice2) + this.currentPositionId) % 39
    
@@ -175,11 +198,18 @@ class AI {
             penalty(this, Field);
         }
         //if current player owns it
-        if (Field.getFieldOwnerId() === this.id) {
+        if (Field.getFieldOwnerId() === this.id && checkFieldFamily(this.id, Field.getFieldId())) {
             //Buy house //interface
             //Might not work properly
             console.log("3")
-            this.BuyHouse(Field);
+            let safty_counter = 0;
+            while(this.decisionBuyHouse(Field)){
+                buyHouse(this.id, field.getFieldId());
+                safty_counter++;
+                if(safty_counter > 8){
+                    break;
+                }
+            }
         }
         //if its jail 
         //TO DO change out_of_jail to USE_OUT_OF_JAIL_CARD
@@ -225,7 +255,24 @@ class AI {
         if (this.money < prop_val) {
             return 0
         }
-        const decision_value = ((prop_val * this.w2) + SimulateMoves(this, 7, 3)) - ( (this.stableProbabilities[field.getFieldId()] * this.w1) * ( (this.money * this.w3) + ( field.getField_penalty() * this.w4)));
+        const decision_value = ((prop_val * this.w2) + SimulateMoves(this, 3, 3)) - ( (this.stableProbabilities[field.getFieldId()] * this.w1) * ( (this.money * this.w3) + ( field.getField_penalty() * this.w4)));
+        
+        console.log("buy field decision=" + decision_value);
+        //TO DO >    ->  <
+        if (decision_value < 0) {
+            //BUY
+            return 1;
+        } else {
+            //DON'T BUY
+            return 0;
+        }
+    }
+
+    decisionBuyHouse(field, prop_val = 200) {
+        if (this.money < prop_val) {
+            return 0
+        }
+        const decision_value = ((prop_val * this.w2) + SimulateMoves(this, 3, 3)) - ( (this.stableProbabilities[field.getFieldId()] * this.w1) * ( (this.money * this.w3) + ( (field.getField_penalty() + field.Field_penaltyForEveryHouse) * this.w4)));
         
         console.log("buy field decision=" + decision_value);
         //TO DO >    ->  <
@@ -266,6 +313,7 @@ class AI {
 
     //decision to buy a house
     //check if you CAN buy house in field
+    //Depicated
     BuyHouse(field) {
         let i = 1;
         while (this.money > field.getPriceForHouse()) {
@@ -280,6 +328,7 @@ class AI {
 
     startTurn() {
         //role dice and change potision on board
+        this.Turn_counter = 0;
         CURRENT_PLAYER = this;
         while (this.moves > 0) {
             this.diceRole()
@@ -322,8 +371,14 @@ class AI {
         //Add Player to new Field
         document.getElementById(`playerbox-${positionId}`).innerHTML += `<div class='player' id='player-${this.id}'>${this.id}</div>`
     
+        //Crossing Go
+        if(this.currentPositionId > positionId) {
+            this.addMoney(200);
+        }
+
         //Update position
         this.currentPositionId = positionId;
+        checkField(this);
     }
 
     //TO DO does it work?
@@ -418,7 +473,8 @@ class AI {
         });
 
         //Sort mapby keys
-        const sortedPropertyValues = new Map([...PropertyValues].sort((a, b) => b[1] - a[1]));
+        //const sortedPropertyValues = new Map([...PropertyValues].sort((a, b) => b[1] - a[1]));// descending order
+        const sortedPropertyValues = new Map([...PropertyValues].sort((a, b) => a[1] - b[1]));  // ASCENDING order
         console.log(sortedPropertyValues, " :sorted property values");
         
 

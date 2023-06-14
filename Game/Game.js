@@ -82,6 +82,7 @@ const prepareNextPlayer = (player) => {
     if(IsGameGoing === false) {
         return;
     }
+    player.Turn_counter = 0;
     if (player.Type == "AI") {
         clearButtons();
         player.startTurn()
@@ -112,14 +113,36 @@ const prepareInterface = (player) => {
 //TO DO check if cheat works
 const roll_dice = (playerId) => {
     let player = PLAYERS[playerId]
+
+    if(player.Turn_counter > 0){ //if player had double, moved to field and moved again without buying field
+        let field = FIELDS_LIST[player.getCurrentPositionId()]
+        if (field.getFieldOwnerId() == "None") {
+            console.log("LICYTACJA")
+            //Show auction in history
+            startAuctionHistory(playerId, field.getFieldId())
+            //Start auction
+            startAuction(playerId, field)
+            return;
+        }
+    }
     let dice1 = (Math.random() * 6)+1;
     let dice2 = (Math.random() * 6)+1;
 
     dice1 = Math.floor(dice1)
     dice2 = Math.floor(dice2)
 
-    //If double add one more move or take one //Player
-    if (dice1 != dice2) player.decreseMove();
+    player.Turn_counter ++;
+    //If double 
+    if (dice1 != dice2){
+        player.decreseMove();
+    }else{
+       if(player.Turn_counter == 3){
+        player.sendPlayerTo(30); //if 3 doubles send player to jail 
+        updateDiceResult(dice1, dice2);
+        diceRolleHistory(playerId, dice1, dice2);
+        return;
+       }
+    }
 
     //Interface
     updateDiceResult(dice1, dice2);
@@ -164,7 +187,9 @@ const checkField = (player) => {
         //Buy house //interface
         //Might not work properly
         console.log("3")
-        if(checkFieldFamily(player.getPlayerId(), Field.getFieldId()) || countFieldFamily(player.getPlayerId(), Field.getFieldId())){
+        if(checkFieldFamily(player.getPlayerId(), Field.getFieldId()) ){
+            //Field isnt railways = 9 or utility = 10
+            if(Field.getFieldFamily() != 9 && Field.getFieldFamily() != 10)
             updateBuyHouse(player, Field)
         }
     }
@@ -209,12 +234,33 @@ const checkField = (player) => {
 
 //TO DO TEST
 const penalty = (player, field) => {
+    //field owner
+    let field_owner = PLAYERS[field.getFieldOwnerId()];
+    //base ammount of money to pay
+    let money_to_pay = field.getField_penalty();
+
+    //Check if its Railways
+    if ([5, 15, 25, 35].includes(field.getFieldId())) {
+        let railwaysAmmount = countFamilyFields(field_owner.getPlayerId(), field.getFieldId())
+        console.log("Penalty - railways - ammount of railways: " + railwaysAmmount);
+        money_to_pay = money_to_pay * railwaysAmmount;
+    }
+
+    //Check if its Waterworks or Electricity
+    if ([12, 28].includes(field.getFieldId())) {
+        let electicity_waterworks = countFamilyFields(field_owner.getPlayerId(), field.getFieldId())
+        console.log("Penalty - waterworks/Electricity - ammount: " + electicity_waterworks);
+        money_to_pay = 10 * doubleDiceRolle() * electicity_waterworks;
+    }
+
     //Take money out of player
-    player.payMoney(field.getField_penalty())
-    //Find player position in list
-    const p = (field.getFieldOwnerId());
-    //Give owner money
-    PLAYERS[p].addMoney(field.getField_penalty())
+    player.payMoney(money_to_pay)
+    //Find player id in list
+    //const p = (field.getFieldOwnerId());
+    //Give owner money    //PLAYERS[p]
+    field_owner.addMoney(money_to_pay)
+
+    payPenaltyHistory(player.getPlayerName(), money_to_pay, field.getFieldTitle());
 }
 
 //Returns player position in PLAYERLIST using id
@@ -255,7 +301,7 @@ const buyHouse = (playerId, fieldId) => {
         return;
     }
     //check if player has all fields from family
-    if(!player.fieldsOwned.includes(field_family.get(field.getFieldFamily()))){
+    if(!checkFieldFamily(playerId, fieldId)) {
         console.log("Player has not all fields from family, you cant buy houese, buyHouse()");
         return;
     }
@@ -320,6 +366,7 @@ async function endTurn(playerId){
     clearButtons();
     //console.log('end turn CURRENT_PLAYER = ', CURRENT_PLAYER);
     //console.log('end turn playerId = ', playerId);
+    PLAYERS[playerId].Turn_counter = 0;
     PLAYERS[playerId].addMove()
     const playerPosition = PLAYERS[playerId].getCurrentPositionId()
     const field = FIELDS_LIST[findFieldById(playerPosition)]
@@ -466,7 +513,8 @@ const checkFieldFamily = (playerId, fieldId) => {
     }
   };
 
-//TO DO needs to be finished
+//TO DO needs to be finished 
+// DEPRICATED
 const countFieldFamily = (playerId, fieldId) =>{
     let player = PLAYERS[playerId];
     let field = FIELDS_LIST[findFieldById(fieldId)];
@@ -478,6 +526,29 @@ const countFieldFamily = (playerId, fieldId) =>{
         return 1;
     }
 }
+
+// Modify the function signature to return an integer count
+const countFamilyFields = (playerId, fieldId) => {
+    let player = PLAYERS[playerId];
+    let field = FIELDS_LIST[findFieldById(fieldId)];
+    let fieldFamily = field_family.get(field.getFieldFamily());
+  
+    if (!fieldFamily) {
+      console.log("Invalid field family");
+      return 0; // Return 0 if the field family is invalid
+    }
+  
+    // Count the number of field IDs from the family that are present in fieldsOwned
+    let count = fieldFamily.reduce((acc, fieldId) => {
+      if (player.fieldsOwned.includes(fieldId)) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+  
+    console.log("Player has", count, "fields from the family");
+    return count;
+  };
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -520,4 +591,16 @@ const SimulateMoves = (player, attemps = 7 ,moves = 3) =>{
     console.log("SimulateMoves : "+cost/attemps);
     //avg from costs
     return (cost/attemps);
+}
+
+//Returns result of dice rolls 
+const doubleDiceRolle= () =>{
+    //dice roll
+    dice1 = (Math.random() * 6)+1;
+    dice2 = (Math.random() * 6)+1;
+
+    dice1 = Math.floor(dice1);
+    dice2 = Math.floor(dice2);
+
+    return (dice1+dice2);
 }

@@ -7,19 +7,37 @@
         width: 100%;
 }
 
+.Field-Upper-Bottom:hover .Hidden{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    position: absolute;
+    bottom: 10%;
+    z-index: 1;
+    background-color: rgb(237, 237, 237);
+    border: 3px solid black;
+}
+
+.Field-Left-Right:hover .Hidden{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    position: absolute;
+    z-index: 1;
+    background-color: rgb(237, 237, 237);
+    border: 3px solid black;
+}
+
 .Hidden {
     display: none;
-    overflow: hidden;
-    width: 200px;
-    height: 400px;
+    width: 120px;
+    height: 160px;
+    z-index: -1;
+    font-size: 12pt !important;
 }
 
-
-.Field-Upper-Bottom:hover .Hidden {
-    position: fixed;
-    display:none;
-    
-}
 
 .field__name {
     font-size: 1vw;

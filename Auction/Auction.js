@@ -5,14 +5,18 @@ let highest_bider = "None";
 let highest_bid = 0;
 let auction_field;
 let FieldOwner = "None";
+let auction_started = 0;
 //Auction display //interface__auction
 const startAuction = (playerId, field) => {
+    if(auction_started==1){
+        return;
+    }
+    auction_started = 1;
     console.log("Auction player id: " + playerId);
     let auction = document.getElementById('interface__auction')
     auction_field = field;
     highest_bider = "None";
     FieldOwner = auction_field.getFieldOwnerId();
-
     PASS = []
     console.log("field:",field);
     highest_bid = Math.floor(field.getFieldPropertyValue()/2)
@@ -73,12 +77,52 @@ const startAuction = (playerId, field) => {
 }
 
 //Display bid button
-const bidButton = () => {
-    document.getElementById(`player__buttons__${CURRENT_BIDER.getPlayerId()}`).innerHTML+=`<button onclick="bid()">bid</button>`
+const bidButton = (current_player) => {
+    let decision = current_player.decisionBuyField(auction_field, highest_bid);
+    //worth
+    if(decision < 0 && decision > -200){
+        document.getElementById(`player__buttons__${CURRENT_BIDER.getPlayerId()}`).innerHTML+=
+        `<button class="worth bid_button" onclick="bid()">Bid
+            <div class="support_message">
+                Its worth to buy
+            </div>
+        </button>`
+        return;
+    }
+    //more worth
+    if(decision <= -200){
+        document.getElementById(`player__buttons__${CURRENT_BIDER.getPlayerId()}`).innerHTML+=
+        `<button class="more_worth bid_button" onclick="bid()">Bid
+            <div class="support_message">
+                Its very good idea to buy
+            </div>
+        </button>`
+        return;
+    }
+    //not worth
+    if(decision >= 0 && decision < 200){
+        document.getElementById(`player__buttons__${CURRENT_BIDER.getPlayerId()}`).innerHTML+=
+        `<button class="not_worth bid_button" onclick="bid()">Bid
+            <div class="support_message">
+                Its not worth
+            </div>
+        </button>`
+        return;
+    }
+    //Not even close
+    if(decision >= 200){
+        document.getElementById(`player__buttons__${CURRENT_BIDER.getPlayerId()}`).innerHTML+=
+        `<button class="Not_even_close bid_button" onclick="bid()">Bid
+            <div class="support_message">
+                Its not really worth 
+            </div>
+        </button>`
+        return;
+    }
 }
 //Display pass button
 const passButton = () => {
-    document.getElementById(`player__buttons__${CURRENT_BIDER.getPlayerId()}`).innerHTML+=`<button onclick="pass()">pass</button>`
+    document.getElementById(`player__buttons__${CURRENT_BIDER.getPlayerId()}`).innerHTML+=`<button class="Pass_button"onclick="pass()">Pass</button>`
 }
 //remove buttons
 const removeBidPassButtons = () => {
@@ -94,7 +138,7 @@ const firstBid = (playerId) => {
             CURRENT_BIDER.auctionAI(auction_field, highest_bid)
         } else {
             console.log("FAILED POINT AND CURRENT_BIDER", CURRENT_BIDER);
-            bidButton()
+            bidButton(CURRENT_BIDER)
             passButton()
         }
         
@@ -103,7 +147,7 @@ const firstBid = (playerId) => {
         if (CURRENT_BIDER.Type == "AI") {
             CURRENT_BIDER.auctionAI(auction_field, highest_bid)
         } else {
-            bidButton()
+            bidButton(CURRENT_BIDER)
             passButton()
         }
     }
@@ -160,6 +204,10 @@ const nextBider = () => {
             return;
         }
         console.log("prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())]) ", (PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())]))
+        console.log("moves: " + CURRENT_PLAYER.moves + " turns:" + CURRENT_PLAYER.Turn_counter);
+        if(CURRENT_PLAYER.moves >= 1 && CURRENT_PLAYER.Turn_counter >=1){ //If player still has moves
+            return;
+        }
         prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())])
         return;
     }
@@ -195,6 +243,10 @@ const nextBider = () => {
         //if owner was "none" //added after bug with selling other player field
         if(prevOwner == "None") {
             console.log("prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())]) ", (PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())]))
+            console.log("moves: " + CURRENT_PLAYER.moves + " turns:" + CURRENT_PLAYER.Turn_counter);
+            if(CURRENT_PLAYER.moves >= 1 && CURRENT_PLAYER.Turn_counter >=1){ //If player still has moves
+                return;
+            }
             prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())])
         }
         //highest_bider = "None";
@@ -218,7 +270,7 @@ const nextBider = () => {
     if (CURRENT_BIDER.Type == "AI" && !(PASS.includes(CURRENT_BIDER))) {
         CURRENT_BIDER.auctionAI(auction_field ,highest_bid)
     } else {
-        bidButton()
+        bidButton(CURRENT_BIDER)
         passButton()
     }
     
@@ -231,6 +283,7 @@ const updateHighestBid = () => {
 }
 
 const endAuction = () => {
+    auction_started = 0;
     console.log("PASS.length: " , PASS.length , " PLAYERS.length:" , PLAYERS.length ," highest_bider" , highest_bider);
     document.getElementById('interface__auction').innerHTML = ``;
     

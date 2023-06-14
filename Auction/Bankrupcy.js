@@ -3,7 +3,7 @@ let losers = [];
 const bankrupcy = (player) => {
     console.log("Start baunkrupcy", player)
     //PLAYERS = PLAYERS.filter(item => item !== player)
-
+    player.moves = 0;
     if(player.fieldsOwned.length == 0){
         player.decreseMove(99999)
         printInHistory("Player lost: ", player.getPlayerName());
