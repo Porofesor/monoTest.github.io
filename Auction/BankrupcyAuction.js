@@ -60,7 +60,7 @@ const SellField = (playerId ,fieldId) =>{
     }
         //sell field
     if(field.getFieldOwnerId() == player.getPlayerId()){
-        document.getElementById('interface__bankrupcy').style.display = 'none';
+        document.getElementById('interface__bankrupcy').innerHTML = '';
         startAuction(playerId, field);
         //document.getElementById('interface__bankrupcy').style.display = 'block';
     }

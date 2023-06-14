@@ -50,11 +50,11 @@ const startGame = () => {
     for(let i = 0; PLAYERLIST.length > i; i++){
         if(PLAYERLIST[i].Type ==  "AI") aiPlayerCounter++;
     }
-    if(aiPlayerCounter == PLAYERLIST.length){
-        console.log("Only AI!!");
-        continueGameAi();
-        return;
-    }
+    // if(aiPlayerCounter == PLAYERLIST.length){
+    //     console.log("Only AI!!");
+    //     continueGameAi();
+    //     return;
+    // }
     //sleep(3000);
     if (PLAYERS[0].Type == "AI") {
         PLAYERS[0].startTurn()
@@ -112,17 +112,17 @@ const prepareInterface = (player) => {
 }
 
 //TO DO check if cheat works
-const roll_dice = (playerId) => {
+const roll_dice = (playerId, safty_mechanism = 1) => {
     let player = PLAYERS[playerId]
 
-    if(player.Turn_counter > 0){ //if player had double, moved to field and moved again without buying field
+    if(player.Turn_counter > 0 && safty_mechanism === 1){ //if player had double, moved to field and moved again without buying field
         let field = FIELDS_LIST[player.getCurrentPositionId()]
         if (field.getFieldOwnerId() == "None") {
             console.log("LICYTACJA")
             //Show auction in history
-            startAuctionHistory(playerId, field.getFieldId())
+            startAuctionHistory(playerId, field.getFieldId());
             //Start auction
-            startAuction(playerId, field)
+            startAuction(playerId, field);
             return;
         }
     }
@@ -172,8 +172,8 @@ const firstTurn = () => {
 //After you enter field, check everything
 const checkField = (player) => {
     let Field = FIELDS_LIST[(player.getCurrentPositionId())];
-    console.log(Field)
-    console.log(player)
+    //console.log(Field)
+    //console.log(player)
     //if Nobody owns it and can be bought // 1 = can be bought, 0 = can't be bought
     if (Field.getFieldOwnerId() == "None" && Field.getFieldFunction() === 1) {
         console.log("1")
@@ -292,6 +292,11 @@ const findFieldById = (id) => {
 const buyHouse = (playerId, fieldId) => {
     let player = PLAYERS[playerId];
     let field = FIELDS_LIST[(fieldId)];
+
+    if(CURRENT_PLAYER.getPlayerId() !== playerId){ 
+        console.log("player different than current tries to buy house");
+        return;  //If player different than current tries to buy house block posibility
+    }
 
     //if nobody owns id (just in case)
     if (field.getFieldOwnerId() == "None") {
@@ -487,10 +492,10 @@ const buyField = (playerId, fieldId , value = 0) => {
 }
 //startGame()
 
-function sleep(delay) {
-    var start = new Date().getTime();
-    while (new Date().getTime() < start + delay);
-}
+// function sleep(delay) {
+//     var start = new Date().getTime();
+//     while (new Date().getTime() < start + delay);
+// }
 
 //Check if player has all fields in family
 const checkFieldFamily = (playerId, fieldId) => {

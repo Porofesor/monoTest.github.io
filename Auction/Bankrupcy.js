@@ -35,11 +35,12 @@ const bankrupcy = (player) => {
         winner = PLAYERS.filter( 
             val => !losers.find( arr1Obj => arr1Obj === val)
         );
-
+        IsGameGoing = false;    
         printInHistory(`Game ends, Player: ${winner[0].getPlayerName()} Wins!`);
+        throw new Error("Program terminated");
         //winner[0].decreseMove(99999)
-        console.log(PLAYERS)
-        console.log(FIELDS_LIST)
+        //console.log(PLAYERS)
+        //console.log(FIELDS_LIST)
         IsGameGoing = false;
         return player;
         //throw new Error("Game was stoped!");

@@ -108,6 +108,9 @@ const removeDiceResult = () => {
 
 //Show buy house button //TO DO change arguments
 const updateBuyHouse = (player, field) => {
+    if(field.getFieldFamily() === 9 || field.getFieldFamily() === 10){ //if utility or railways
+        return;
+    }
     let decision = player.decisionBuyHouse(field, 200);
     //worth
     if(decision < 0 && decision > -200){
@@ -134,7 +137,7 @@ const updateBuyHouse = (player, field) => {
         document.getElementById(`interface__buy__field`).innerHTML=
         `<button onclick="buyHouse(${player.getPlayerId()},${field.getFieldId()})" class="buyField not_worth" id="buyField">Buy house
             <div class="support_message">
-                Its not worth
+                Its not worth buying
             </div>
         </button>`
         return;
@@ -144,7 +147,7 @@ const updateBuyHouse = (player, field) => {
         document.getElementById(`interface__buy__field`).innerHTML=
         `<button onclick="buyHouse(${player.getPlayerId()},${field.getFieldId()})" class="buyField Not_even_close" id="buyField">Buy house
             <div class="support_message">
-                Its not really worth 
+                Its not really worth buying
             </div>
         </button>`
         return;

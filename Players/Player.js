@@ -24,17 +24,17 @@ class Player {
 
     enterStartField() {
         this.addMoney(200);
-        console.log("+200 player money=",this.money)
+        //console.log("+200 player money=",this.money)
     }
 
     //Chages player position, checks if he went pass "go", give 200, updates positionon on board 
     //TO DO make this in interface not here
     updatePlayerPosition(dice_result) {
         //40 = ammount of fields
-        let newPosition = (dice_result + this.currentPositionId) % 39 
+        let newPosition = (dice_result + this.currentPositionId) % 40 
 
         //test
-        console.log("new position= ", newPosition, "_", dice_result, "+", this.currentPositionId, "%39");
+        //console.log("new position= ", newPosition, "_", dice_result, "+", this.currentPositionId, "%39");
 
         //Pass throu "GO"
         if (this.currentPositionId >= newPosition || newPosition==0){
@@ -57,10 +57,10 @@ class Player {
         document.getElementById(`player-${this.id}`).outerHTML = "";
     
         //Add Player to new Field
-        document.getElementById(`playerbox-${positionId}`).innerHTML += `<div class='player' id='player-${this.id}'>${this.id}</div>`
+        document.getElementById(`playerbox-${positionId}`).innerHTML += `<div class='player' id='player-${this.id}'>${this.id + 1}</div>`
     
         //Crossing Go
-        if(this.currentPositionId > positionId) {
+        if(this.currentPositionId > positionId && positionId != 10) {
             this.addMoney(200);
         }
         //Update position
@@ -245,7 +245,7 @@ class Player {
         }
         const decision_value = ((prop_val * this.w2) + SimulateMoves(this, 7, 3)) - ( (this.stableProbabilities[field.getFieldId()] * this.w1) * ( (this.money * this.w3) + ( field.getField_penalty() * this.w4)));
         
-        console.log("buy field decision Player" + decision_value);
+        //console.log("buy field decision Player" + decision_value);
 
         return decision_value;
     } 

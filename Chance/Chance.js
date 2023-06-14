@@ -132,12 +132,12 @@ const chance_6 = (playerId) => {
 
 //YOU ARE LUCKY, COLLECT 150$
 const chance_7 = (playerId) => { 
-    PLAYERS[findPlayerById(playerId)].addMoney(150)
+    PLAYERS[findPlayerById(playerId)].addMoney(75)
 }
 
 //BANK PAYS YOU 50$
 const chance_8 = (playerId) => { 
-    PLAYERS[findPlayerById(playerId)].addMoney(50)
+    PLAYERS[findPlayerById(playerId)].addMoney(20)
 }
 
 //Go on a parking
@@ -176,9 +176,10 @@ const chance_12 = (playerId) => {
 
 //FOR EACH HOUSE PAY 25$ FOR EACH HOTEL 100$
 const chance_13 = (playerId) => {  
+    const moneyToPay = 0;
     PLAYERS[findPlayerById(playerId)].fieldsOwned.forEach(element => {
-        const moneyToPay = FIELDS_LIST[findFieldById(element)].getHouseAmmount * 25
-        console.log("paid for houses: ",moneyToPay)
-        PLAYERS[findPlayerById(playerId)].payMoney(moneyToPay)
+        moneyToPay += FIELDS_LIST[findFieldById(element)].getHouseAmmount() * 25
     })
+    console.log("paid for houses: ",moneyToPay);
+    PLAYERS[findPlayerById(playerId)].payMoney(moneyToPay);
 }
