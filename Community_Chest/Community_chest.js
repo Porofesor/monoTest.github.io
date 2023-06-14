@@ -80,9 +80,9 @@ const chest_0 = (playerId) => {
     PLAYERS[findPlayerById(playerId)].sendPlayerToGo();
 }
 
-//YOU INHERIT 100$
+//YOU INHERIT 50$
 const chest_1 = (playerId) => {  
-    PLAYERS[findPlayerById(playerId)].addMoney(100)
+    PLAYERS[findPlayerById(playerId)].addMoney(50)
 }
 
 //COLLECT 50$ FROM EVERY PLAYER
@@ -97,7 +97,7 @@ const chest_2 = (playerId) => {
 
 //GO TO JAIL
 const chest_3 = (playerId) => { 
-    PLAYERS[findPlayerById(playerId)].currentPositionId = 10;
+    PLAYERS[findPlayerById(playerId)].sendPlayerTo(10);
     PLAYERS[findPlayerById(playerId)].decreseMove();
 }
 
@@ -109,9 +109,9 @@ const chest_4 = (playerId) => {
 const chest_5 = (playerId) => {  
     PLAYERS[findPlayerById(playerId)].addMoney(30)
 }
-//COLLECT 100$
+//COLLECT 5$
 const chest_6 = (playerId) => {  
-    PLAYERS[findPlayerById(playerId)].addMoney(100)
+    PLAYERS[findPlayerById(playerId)].addMoney(50)
 }
 //FROM SALE OF STOCK YOU GET 45$
 const chest_7 = (playerId) => {  
@@ -123,29 +123,30 @@ const chest_8 = (playerId) => {
 }
 //COLLECT 20$
 const chest_9 = (playerId) => {  
-    PLAYERS[findPlayerById(playerId)].addMoney(45)
+    PLAYERS[findPlayerById(playerId)].addMoney(20)
 }
 //PAY 50$
 const chest_10 = (playerId) => {  
     PLAYERS[findPlayerById(playerId)].payMoney(50)
 }
-//COLLECT 200$
+//COLLECT 100$
 const chest_11 = (playerId) => {  
-    PLAYERS[findPlayerById(playerId)].addMoney(200)
+    PLAYERS[findPlayerById(playerId)].addMoney(100)
 }
 //COLLECT 100$
 const chest_12 = (playerId) => {  
     PLAYERS[findPlayerById(playerId)].addMoney(100)
 }
-//PAY 150$
+//PAY 100$
 const chest_13 = (playerId) => {  
-    PLAYERS[findPlayerById(playerId)].payMoney(150)
+    PLAYERS[findPlayerById(playerId)].payMoney(100)
 }
 //PAY 40$ FOR HOUSE
 const chest_14 = (playerId) => {  
+    const moneyToPay = 0;
     PLAYERS[findPlayerById(playerId)].fieldsOwned.forEach(element => {
-        const moneyToPay = FIELDS_LIST[findFieldById(element)].getHouseAmmount * 40
-        console.log("paid for houses: ",moneyToPay)
-        PLAYERS[findPlayerById(playerId)].payMoney(moneyToPay)
+        moneyToPay += FIELDS_LIST[findFieldById(element)].getHouseAmmount() * 40
     })
+    console.log("paid for houses: ",moneyToPay)
+    PLAYERS[findPlayerById(playerId)].payMoney(moneyToPay)
 }

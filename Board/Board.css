@@ -10,7 +10,7 @@
 .Field-Upper-Bottom:hover .Hidden{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     
     position: absolute;
     bottom: 10%;
@@ -36,6 +36,10 @@
     height: 160px;
     z-index: -1;
     font-size: 12pt !important;
+}
+
+.Hidden *{
+    font-size: 3vh !important;
 }
 
 

@@ -31,13 +31,13 @@
     },
     {
         "id":5,
-        "description":"Advance token to the nearest railroad and pay  owner TWICE the rental to wjich owner is otherwise entitled",
+        "description":"Advance token to the nearest railroad",
         "content":"If railroads is UNOWNED, you may buy it",
         "function": 5      
     },
     {
         "id":6,
-        "description":"Advance token to the nearest railroad and pay  owner TWICE the rental to wjich owner is otherwise entitled",
+        "description":"Advance token to the nearest railroad",
         "content":"If railroads is UNOWNED, you may buy it",
         "function": 5      
     },
@@ -50,13 +50,13 @@
     {
         "id":8,
         "description":"",
-        "content":"YOU ARE LUCKY, COLLECT 150$",
+        "content":"YOU ARE LUCKY, COLLECT 75$",
         "function": 7      
     },
     {
         "id":9,
         "description":"",
-        "content":"BANK PAYS YOU 50$",
+        "content":"BANK PAYS YOU 20$",
         "function": 8      
     },
     {

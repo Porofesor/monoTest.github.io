@@ -136,7 +136,7 @@ class AI {
         if(this.Turn_counter > 0){ //if player had double, moved to field and moved again without buying field
             let field = FIELDS_LIST[this.getCurrentPositionId()]
             if (field.getFieldOwnerId() == "None") {
-                console.log("LICYTACJA")
+                //console.log("LICYTACJA")
                 //Show auction in history
                 startAuctionHistory(this.id, field.getFieldId())
                 //Start auction
@@ -158,7 +158,7 @@ class AI {
             
         }
         //Calc new position
-        let newPosition = ((dice1 + dice2) + this.currentPositionId) % 39
+        let newPosition = ((dice1 + dice2) + this.currentPositionId) % 40
    
         //Was "go" crossed
         if (this.currentPositionId >= newPosition || newPosition == 0) this.addMoney(200);
@@ -183,28 +183,28 @@ class AI {
         let Field = FIELDS_LIST[(this.getCurrentPositionId())];
         //if Nobody owns it and can be bought // 1 = can be bought, 0 = can't be bought
         if (Field.getFieldOwnerId() == "None" && Field.getFieldFunction() == 1) {
-            console.log("1")
+            //console.log("1")
             if (this.decisionBuyField(Field, Field.getFieldPropertyValue())) {
                 //Buy field
-                console.log("field bought")
+                //console.log("field bought")
                 buyField(this.id, Field.getFieldId())
             } else {
-                console.log("field wasnt bought");
+                //console.log("field wasnt bought");
             }
         }
         //if someone else own it
         if (Field.getFieldOwnerId() != "None" && Field.getFieldOwnerId() != this.id && Field.getFieldFunction() == 1) {
-            console.log("2")
+            //console.log("2")
             penalty(this, Field);
         }
         //if current player owns it
-        if (Field.getFieldOwnerId() === this.id && checkFieldFamily(this.id, Field.getFieldId())) {
+        if (checkFieldFamily(this.id, Field.getFieldId())) {
             //Buy house //interface
             //Might not work properly
-            console.log("3")
+            console.log("3 We can buy house");
             let safty_counter = 0;
             while(this.decisionBuyHouse(Field)){
-                buyHouse(this.id, field.getFieldId());
+                buyHouse(this.id, this.currentPositionId);
                 safty_counter++;
                 if(safty_counter > 8){
                     break;
@@ -214,7 +214,7 @@ class AI {
         //if its jail 
         //TO DO change out_of_jail to USE_OUT_OF_JAIL_CARD
         if (Field.getFieldFunction() == "Jail") {
-            console.log("4")
+            //console.log("4")
             if (this.OutofJail > 0) {
                 this.OutofJail -= 1;
             } else {
@@ -229,7 +229,7 @@ class AI {
         if (Field.getFieldFunction() == "Chance") {
             //Chance.js
             chanceCard(this.id)
-            console.log("5")
+            //console.log("5")
             //Test if after going to jail fields swaps
             return;
         }
@@ -237,16 +237,17 @@ class AI {
         if (Field.getFieldFunction() == "Chest") {
             //Chance.js
             chestCard(this.id)
-            console.log("6")
+            //console.log("6")
             //Test if after going to jail fields swaps
             return;
         }
         //if its parking / tax
         if (Field.getFieldFunction() == "Tax") {
             this.payMoney(200)
+            taxIncomeHistory(this)
         }
-        console.log("7")
-        FIELDS_LIST[(this.getCurrentPositionId())] = Field;
+        //console.log("7")
+        //FIELDS_LIST[(this.getCurrentPositionId())] = Field;
         //if 
     }
     
@@ -270,18 +271,18 @@ class AI {
 
     decisionBuyHouse(field, prop_val = 200) {
         if (this.money < prop_val) {
-            return 0
+            return false;
         }
         const decision_value = ((prop_val * this.w2) + SimulateMoves(this, 3, 3)) - ( (this.stableProbabilities[field.getFieldId()] * this.w1) * ( (this.money * this.w3) + ( (field.getField_penalty() + field.Field_penaltyForEveryHouse) * this.w4)));
         
-        console.log("buy field decision=" + decision_value);
+        console.log("buy house decision=" + decision_value);
         //TO DO >    ->  <
         if (decision_value < 0) {
             //BUY
-            return 1;
+            return true;
         } else {
             //DON'T BUY
-            return 0;
+            return false;
         }
     }
 
@@ -330,8 +331,10 @@ class AI {
         //role dice and change potision on board
         this.Turn_counter = 0;
         CURRENT_PLAYER = this;
+        if(IsGameGoing == false) return;
         while (this.moves > 0) {
             this.diceRole()
+            sleep(100);
             this.checkField();
         }
         //game
@@ -349,6 +352,9 @@ class AI {
 
     addMoney(ammount) {
         this.money += ammount;
+        if(this.money < 0) {
+            bankrupcy(this);
+        }
     }
 
     payMoney(ammount) {
@@ -369,10 +375,10 @@ class AI {
         document.getElementById(`player-${this.id}`).outerHTML = "";
     
         //Add Player to new Field
-        document.getElementById(`playerbox-${positionId}`).innerHTML += `<div class='player' id='player-${this.id}'>${this.id}</div>`
+        document.getElementById(`playerbox-${positionId}`).innerHTML += `<div class='player' id='player-${this.id}'>${this.id + 1}</div>`
     
         //Crossing Go
-        if(this.currentPositionId > positionId) {
+        if(this.currentPositionId > positionId && positionId != 10) {
             this.addMoney(200);
         }
 
@@ -383,7 +389,7 @@ class AI {
 
     //TO DO does it work?
     auctionAI(field, highest_bid) {
-        console.log("AI - auction :", this.id)
+        //console.log("AI - auction :", this.id)
         const decision = this.decisionBuyField(field, highest_bid);
         if (decision == 1) {
             bid();
@@ -430,7 +436,7 @@ class AI {
         let newPosition = (dice_result + this.currentPositionId) % 39 
 
         //test
-        console.log("new position= ", newPosition, "_", dice_result, "+", this.currentPositionId, "%39");
+        //console.log("new position= ", newPosition, "_", dice_result, "+", this.currentPositionId, "%39");
 
         //Pass throu "GO"
         if (this.currentPositionId >= newPosition || newPosition==0) this.addMoney(200);
@@ -460,7 +466,7 @@ class AI {
 
     //TO DO change propVal 
     async bankrupcy(){
-        alert("AI Bankrupcy wasnt tested properly yet");
+        //alert("AI Bankrupcy wasnt tested properly yet");
 
         //const decision = new Map();
         const PropertyValues = new Map();
@@ -475,7 +481,7 @@ class AI {
         //Sort mapby keys
         //const sortedPropertyValues = new Map([...PropertyValues].sort((a, b) => b[1] - a[1]));// descending order
         const sortedPropertyValues = new Map([...PropertyValues].sort((a, b) => a[1] - b[1]));  // ASCENDING order
-        console.log(sortedPropertyValues, " :sorted property values");
+        //console.log(sortedPropertyValues, " :sorted property values");
         
 
         //sell houses

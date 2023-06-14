@@ -108,10 +108,13 @@ const removeDiceResult = () => {
 
 //Show buy house button //TO DO change arguments
 const updateBuyHouse = (player, field) => {
+    if(field.getFieldFamily() === 9 || field.getFieldFamily() === 10){ //if utility or railways
+        return;
+    }
     let decision = player.decisionBuyHouse(field, 200);
     //worth
     if(decision < 0 && decision > -200){
-        document.getElementById(`interface__buy__field`).innerHTML+=
+        document.getElementById(`interface__buy__field`).innerHTML=
         `<button onclick="buyHouse(${player.getPlayerId()},${field.getFieldId()})" class="buyField worth" id="buyField">Buy house
             <div class="support_message">
                 Its worth to buy
@@ -121,7 +124,7 @@ const updateBuyHouse = (player, field) => {
     }
     //more worth
     if(decision <= -200){
-        document.getElementById(`interface__buy__field`).innerHTML+=
+        document.getElementById(`interface__buy__field`).innerHTML=
         `<button onclick="buyHouse(${player.getPlayerId()},${field.getFieldId()})" class="buyField more_worth" id="buyField">Buy house
             <div class="support_message">
                 Its very good idea to buy
@@ -131,20 +134,20 @@ const updateBuyHouse = (player, field) => {
     }
     //not worth
     if(decision >= 0 && decision < 200){
-        document.getElementById(`interface__buy__field`).innerHTML+=
+        document.getElementById(`interface__buy__field`).innerHTML=
         `<button onclick="buyHouse(${player.getPlayerId()},${field.getFieldId()})" class="buyField not_worth" id="buyField">Buy house
             <div class="support_message">
-                Its not worth
+                Its not worth buying
             </div>
         </button>`
         return;
     }
     //Not even close
     if(decision >= 200){
-        document.getElementById(`interface__buy__field`).innerHTML+=
+        document.getElementById(`interface__buy__field`).innerHTML=
         `<button onclick="buyHouse(${player.getPlayerId()},${field.getFieldId()})" class="buyField Not_even_close" id="buyField">Buy house
             <div class="support_message">
-                Its not really worth 
+                Its not really worth buying
             </div>
         </button>`
         return;

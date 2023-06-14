@@ -6,10 +6,21 @@ let highest_bid = 0;
 let auction_field;
 let FieldOwner = "None";
 let auction_started = 0;
+let last_fieldId_auctioned = [0, 0, 0];
 //Auction display //interface__auction
 const startAuction = (playerId, field) => {
     if(auction_started==1){
+        console.log("Auction started already");
         return;
+    }
+    if(checkLastThreeElements(field.getFieldId())){//checks if auction was started multiple times on same field
+        //Start turn for next player
+        if(PLAYERS[playerId].Type !== "AI"){
+            roll_dice(playerId, 0);
+        }
+        return;
+    }else{
+        chengeLast_fieldId_auctioned(field.getFieldId());
     }
     auction_started = 1;
     console.log("Auction player id: " + playerId);
@@ -183,6 +194,7 @@ const nextBider = () => {
     //End auction if all playes passed and nobody wanted field
     if ((PASS.length) == PLAYERS.length && highest_bider == "None") {
         //end aution
+        auction_started = 0;
         //clear interface and reset values
         document.getElementById('interface__auction').innerHTML = ``;
         PASS = [];
@@ -192,11 +204,11 @@ const nextBider = () => {
 
         //prepare for next player to move
         //If other player was owner of field
-        if(auction_field.getFieldOwnerId() !=   "None"){
+        if(auction_field.getFieldOwnerId() !== "None"){
             //give player money for his field
-            PLAYERS[(fieldId.getFieldOwnerId())].addMoney(auction_field.getFieldPropertyValue()/2);
+            PLAYERS[(auction_field.getFieldOwnerId())].addMoney(auction_field.getFieldPropertyValue()/2);
             //remove field from list of his fields
-            PLAYERS[(fieldId.getFieldOwnerId())].fieldsOwned.filter(item => item !== fieldId)   
+            PLAYERS[(auction_field.getFieldOwnerId())].fieldsOwned.filter(item => item !== auction_field.getFieldId())   
             //Give field to "bank" 
             auction_field.Field_ownerId = "None";
             //Go back to bankrupcy autcion if it continues
@@ -215,6 +227,7 @@ const nextBider = () => {
     //End auction if N-1 players passed and someone bided for field
     if ((PASS.length + 1) == PLAYERS.length && highest_bider != "None") {
         //END AUCTION
+        auction_started = 0;
         //If buyer doesnt have enought money in case nobody has money 
         if (highest_bider.getMoney() < highest_bid) {
             document.getElementById('interface__auction').innerHTML = ``;
@@ -237,7 +250,8 @@ const nextBider = () => {
         PASS = [];
 
         //Show in history who won auction
-        endAuctionHistory(highest_bider.getPlayerId(), highest_bid)
+        if(highest_bider != "None")
+            endAuctionHistory(highest_bider.getPlayerId(), highest_bid)
 
         //prepare for next player to move
         //if owner was "none" //added after bug with selling other player field
@@ -292,14 +306,14 @@ const endAuction = () => {
         PASS = [];
         //prepare for next player to move
         //If other player was owner of field
-        if(auction_field.getFieldOwnerId() !=   "None"){
+        if(auction_field.getFieldOwnerId() !==   "None"){
             //give player money for his field
             PLAYERS[(auction_field.getFieldOwnerId())].addMoney(auction_field.getFieldPropertyValue()/2);
             //remove field from list of his fields
             PLAYERS[(auction_field.getFieldOwnerId())].fieldsOwned.filter(item => item !== auction_field.getFieldId())   
             //Give field to "bank" 
             auction_field.Field_ownerId = "None";
-            //Go back to bankrupcy autcion if it continues
+            document.getElementById(`item-${field.getFieldId()}`).style.backgroundColor="#FFFFFF";
             //goBackToBankrupcyAuction();
 
             //If prev owner is below 0$ start bankrupcy then auction
@@ -348,6 +362,16 @@ const endAuction = () => {
     if(PASS.length == PLAYERS.length && highest_bider == "None"){
         PASS = [];
         printInHistory("Nobody bought this field in auction");
+        if(auction_field.getFieldOwnerId != "None"){
+            //give player money
+            PLAYERS[(auction_field.getFieldOwnerId())].addMoney(auction_field.getFieldPropertyValue()/2);
+            //remove field from list of his fields
+            PLAYERS[(auction_field.getFieldOwnerId())].fieldsOwned.filter(item => item !== auction_field.getFieldId())   
+            //Give field to "bank" 
+            auction_field.Field_ownerId = "None";
+            //change background color 
+            document.getElementById(`item-${field.getFieldId()}`).style.backgroundColor="#FFFFFF";
+        }
         return;
     }
     printInHistory(`PASS.length: " , ${PASS.length} , " PLAYERS.length:" , ${PLAYERS.length} ," highest_bider" , ${highest_bider} `)
@@ -401,3 +425,17 @@ const findNextBider = () => {
     }
     return CURRENT_BIDER;
 }
+
+function checkLastThreeElements(fieldId) {
+    return (
+      last_fieldId_auctioned[0] === last_fieldId_auctioned[1] &&
+      last_fieldId_auctioned[1] === last_fieldId_auctioned[2] &&
+      last_fieldId_auctioned[2] === fieldId
+    );
+  }
+
+  function chengeLast_fieldId_auctioned(fieldId) {
+    last_fieldId_auctioned[2] = last_fieldId_auctioned[1];
+    last_fieldId_auctioned[1] = last_fieldId_auctioned[0];
+    last_fieldId_auctioned[0] = fieldId;
+  }

@@ -517,7 +517,7 @@
         "field_function": 1,
         "field_penalty": 200,
         "penalty_for_house": 200,
-        "price_for_house":  200,
+        "price_for_house": 200,
         "country": 8
     },
     {
