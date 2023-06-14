@@ -349,6 +349,9 @@ class AI {
 
     addMoney(ammount) {
         this.money += ammount;
+        if(this.money < 0) {
+            bankrupcy(this);
+        }
     }
 
     payMoney(ammount) {

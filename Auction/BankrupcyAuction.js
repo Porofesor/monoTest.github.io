@@ -11,7 +11,7 @@ const starBankrupcyAuction = (playeryId) => {
     <div class="interface__bankrupcy_container">
         <div class="interface__bankrupcy__announce">You are bankrupt</div>
         <div id="interface__bankrupcy__playerName">Player name: ${bankrupt_player.getPlayerName()}</div>
-        <div id="interface__bankrupcy__Money">Current money: $${bankrupt_player.getMoney()}</div>
+        <div id="interface__bankrupcy__Money">Current ammount of money: $${bankrupt_player.getMoney()}</div>
         <div id="interface__bankrupcy__fields">${addFieldCard2(bankrupt_player).innerHTML}</div>
     </div>
     `;  
@@ -22,9 +22,10 @@ const showSellHouseButton = (fieldId) => {
     const field = FIELDS_LIST[findFieldById(fieldId)];
 
     if(field.getHouseAmmount() > 0){
-        document.getElementById(`interface__bankrupcy__Buttons${element}`);
-        buttons.innerHTML += `<button onclick="SellHouse(${fieldId})" id='sell__house__${fieldId}'>Sell house</button>`
+        let buttons = `<button onclick="SellHouse(${fieldId})" id='sell__house__${fieldId}'>Sell house</button>`;
+        return buttons;
     }
+    return "";
 }
 
 //sell house 
@@ -37,6 +38,9 @@ const SellHouse = (fieldId) => {
         let player = PLAYERS[(field.getFieldOwnerId())];
         //give him money for selling house
         player.addMoney(field.getPriceForHouse());
+        if(player.getMoney() > 0){
+            prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())]);
+        }
     }
     if(field.getHouseAmmount() <= 0){
         document.getElementById(`sell__house__${fieldId}`).remove();
@@ -90,7 +94,8 @@ const addFieldCard2 = (player) =>{
                 <div class="interface__bankrupcy__text">$${field.getFieldPropertyValue()}</div>
             </div>
             <div class="interface__bankrupcy__Buttons" id="interface__bankrupcy__Buttons${element}">
-                <button onclick="SellField(${player.id},${element})" id="sell__field__${element}">Sell field</button>
+                <button onclick="SellField(${player.id},${element})" id="sell__field__${element}">Sell property</button>
+                ${showSellHouseButton(element)}
             </div>
         </div>
         `

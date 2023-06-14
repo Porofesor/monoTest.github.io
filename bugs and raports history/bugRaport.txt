@@ -1,8 +1,0 @@
-1. Brak update na field 
-wejscie na pole(insbruk) -> proba kupna -> odmowa ->role dice (double) -> kupno pola(saloniki) -> insbruk kupiony ??? za cene salonikow
-2. zla osoba zaczyna aukcje
-red wchodzi saloniki -> zaczyna aukcje -> aukcja zaczyna sie jakby nastepny gracz (yellow AI) ja zaczal) -> red moze brac udzial w akcji
-3.Po przejsciu na pole przez szanse (mediolan) nie dostajemy przycisku na zakup pola oraz graficznie nie jestesmy przeniesieni
-
-4. wszedzie gdzie jest sendTo dodać checkField()
-5. zamiana current_player na wskaźnik do PLAYERS

@@ -124,6 +124,9 @@ class Player {
     addMoney(ammount) {
         this.money += ammount;
         updatePlayerList();
+        if(this.money < 0) {
+            bankrupcy(this);
+        }
     }
 
     addField(fieldId) {

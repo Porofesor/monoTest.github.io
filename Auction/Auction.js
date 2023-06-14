@@ -6,10 +6,18 @@ let highest_bid = 0;
 let auction_field;
 let FieldOwner = "None";
 let auction_started = 0;
+let last_fieldId_auctioned = [0, 0, 0];
 //Auction display //interface__auction
 const startAuction = (playerId, field) => {
     if(auction_started==1){
+        console.log("Auction started already");
         return;
+    }
+    if(checkLastThreeElements(field.getFieldId())){//checks if auction was started multiple times on same field
+        //Start turn for next player
+        prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())]);
+    }else{
+        chengeLast_fieldId_auctioned(field.getFieldId());
     }
     auction_started = 1;
     console.log("Auction player id: " + playerId);
@@ -183,6 +191,7 @@ const nextBider = () => {
     //End auction if all playes passed and nobody wanted field
     if ((PASS.length) == PLAYERS.length && highest_bider == "None") {
         //end aution
+        auction_started = 0;
         //clear interface and reset values
         document.getElementById('interface__auction').innerHTML = ``;
         PASS = [];
@@ -215,6 +224,7 @@ const nextBider = () => {
     //End auction if N-1 players passed and someone bided for field
     if ((PASS.length + 1) == PLAYERS.length && highest_bider != "None") {
         //END AUCTION
+        auction_started = 0;
         //If buyer doesnt have enought money in case nobody has money 
         if (highest_bider.getMoney() < highest_bid) {
             document.getElementById('interface__auction').innerHTML = ``;
@@ -401,3 +411,17 @@ const findNextBider = () => {
     }
     return CURRENT_BIDER;
 }
+
+function checkLastThreeElements(fieldId) {
+    return (
+      last_fieldId_auctioned[0] === last_fieldId_auctioned[1] &&
+      last_fieldId_auctioned[1] === last_fieldId_auctioned[2] &&
+      last_fieldId_auctioned[2] === fieldId
+    );
+  }
+
+  function chengeLast_fieldId_auctioned(fieldId) {
+    last_fieldId_auctioned[2] = last_fieldId_auctioned[1];
+    last_fieldId_auctioned[1] = last_fieldId_auctioned[0];
+    last_fieldId_auctioned[0] = fieldId;
+  }

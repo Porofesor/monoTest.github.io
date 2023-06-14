@@ -97,7 +97,7 @@ const chest_2 = (playerId) => {
 
 //GO TO JAIL
 const chest_3 = (playerId) => { 
-    PLAYERS[findPlayerById(playerId)].currentPositionId = 10;
+    PLAYERS[findPlayerById(playerId)].sendPlayerTo(10);
     PLAYERS[findPlayerById(playerId)].decreseMove();
 }
 

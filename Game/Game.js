@@ -79,6 +79,7 @@ async function continueGameAi() {
 
 //Prepare interface for next player
 const prepareNextPlayer = (player) => {
+    CURRENT_PLAYER = player;
     if(IsGameGoing === false) {
         return;
     }
@@ -140,6 +141,7 @@ const roll_dice = (playerId) => {
         player.sendPlayerTo(30); //if 3 doubles send player to jail 
         updateDiceResult(dice1, dice2);
         diceRolleHistory(playerId, dice1, dice2);
+        endTurn(playerId);
         return;
        }
     }
@@ -189,8 +191,9 @@ const checkField = (player) => {
         console.log("3")
         if(checkFieldFamily(player.getPlayerId(), Field.getFieldId()) ){
             //Field isnt railways = 9 or utility = 10
-            if(Field.getFieldFamily() != 9 && Field.getFieldFamily() != 10)
-            updateBuyHouse(player, Field)
+            if(Field.getFieldFamily() !== 9 && Field.getFieldFamily() !== 10)
+                if(player.getMoney() >= 200)
+                    updateBuyHouse(player, Field)
         }
     }
     //if its jail 
@@ -270,11 +273,11 @@ const findPlayerById = (id) => {
 
 //Find field by id 
 const findFieldById = (id) => {
-    console.log("findFieldById:", id)
-    console.log(FIELDS_LIST);
+    //console.log("findFieldById:", id)
+    //console.log(FIELDS_LIST);
     for (let i = 0; i < FIELDS_LIST.length; i++) {
         if (FIELDS_LIST[i].getFieldId() == id) {
-            console.log("find field by id: ", i)
+            //console.log("find field by id: ", i)
             return i;
         }
     }
@@ -307,7 +310,7 @@ const buyHouse = (playerId, fieldId) => {
     }
 
     //Not enough money
-    if (player.getMoney() < field.getFieldPropertyValue()) {
+    if (player.getMoney() < field.getPriceForHouse()) {
         console.log("Not enought money");
         return;
     }
@@ -331,6 +334,9 @@ const buyHouse = (playerId, fieldId) => {
     PLAYERS[playerId] = player;
     FIELDS_LIST[findFieldById(fieldId)] = field;
     
+    if(player.Type !== "AI"){ // reload buttons
+        updateBuyHouse(player, field);
+    }
     console.log("House was added", field.getHouseAmmount())
 }
 
