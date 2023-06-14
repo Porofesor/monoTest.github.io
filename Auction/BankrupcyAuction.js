@@ -3,7 +3,7 @@ let bankrupt_player;
 
 //show main panel for selling field
 const starBankrupcyAuction = (playeryId) => {
-    bankrupt_player = PLAYERS[findPlayerById(playeryId)];
+    bankrupt_player = PLAYERS[playeryId];
 
     let auction = document.getElementById('interface__bankrupcy');
     auction.innerHTML=``;
@@ -17,34 +17,6 @@ const starBankrupcyAuction = (playeryId) => {
     `;  
     //addFieldCard(bankrupt_player)
 }
-
-//Show card with field info
-// const addFieldCard = (player) =>{
-//     let cards = document.getElementById('interface__bankrupcy__fields');
-//     cards.innerHTML =``;
-//     //element = fieldId
-//     console.log("Fields owned: ",player.fieldsOwned)
-//     player.fieldsOwned.forEach(element => {
-//         field = FIELDS_LIST[findFieldById(element)]
-//         cards.innerHTML += `
-//         <div class='interface__bankrupcy__field__info'>
-//             <div class="Field-Upper-Bottom" >
-//                 <div class="ColoredBox-${field.getFieldFamily()}" id="ColoredBox-${element}"></div>
-//                 <div class="field__name">${field.getFieldTitle()}</div>
-//                 <div id="house_ammount">${field.getHouseAmmount()}</div>
-//                 <div class="field__price">$${field.getFieldPropertyValue()}</div>
-//             </div>
-//             <div id="interface__bankrupcy__Buttons${element}">
-//                 <button onclick="SellField(${player.id},${element})" id="sell__field__${element}">Sell field</button>
-//             </div>
-//         </div>
-//         `
-//         //Add sell house button
-//         showSellHouseButton(element)
-//     });
-//     console.log("Endof add Field card");
-// }
-
 //Show sell house button in there are more than 1 houses
 const showSellHouseButton = (fieldId) => {
     const field = FIELDS_LIST[findFieldById(fieldId)];
@@ -62,7 +34,7 @@ const SellHouse = (fieldId) => {
         //remove house
         field.decreseHouse()
         //get player
-        let player = PLAYERS[findPlayerById(field.getFieldOwnerId())];
+        let player = PLAYERS[(field.getFieldOwnerId())];
         //give him money for selling house
         player.addMoney(field.getPriceForHouse());
     }
@@ -74,13 +46,13 @@ const SellHouse = (fieldId) => {
 //Start auction
 //TO DO give money to player after
 const SellField = (playerId ,fieldId) =>{
-    const player = PLAYERS[findPlayerById(playerId)];
+    const player = PLAYERS[playerId];
     const field = FIELDS_LIST[findFieldById(fieldId)];
 
     //sell houses
     if(field.getHouseAmmount() > 0){
-        PLAYERS[findPlayerById(playerId)].addMoney(field.getPriceForHouse() * field.getHouseAmmount());
-        PLAYERS[findPlayerById(playerId)].Field_house_ammount = 0;
+        PLAYERS[playerId].addMoney(field.getPriceForHouse() * field.getHouseAmmount());
+        PLAYERS[playerId].Field_house_ammount = 0;
     }
         //sell field
     if(field.getFieldOwnerId() == player.getPlayerId()){
@@ -92,11 +64,15 @@ const SellField = (playerId ,fieldId) =>{
 
 const goBackToBankrupcyAuction = () =>{
     //end auction
-    if(bankrupt_player.getMoney()<0){
-        starBankrupcyAuction(playeryId)
-        return;
-    }
-    return;
+    // if(bankrupt_player.getMoney()<0){
+    //     if(bankrupt_player.fieldsOwned.length == 0){
+    //         bankrupcy(bankrupt_player);
+    //         return;
+    //     }
+    //     starBankrupcyAuction(playeryId)
+    //     return;
+    // }
+    // return;
 }
 
 

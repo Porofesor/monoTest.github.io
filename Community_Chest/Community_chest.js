@@ -58,21 +58,21 @@ const chestCard = (playerId) => {
             chest_10(playerId);
             break;
         case 11:
-            chest_2(playerId);
+            chest_11(playerId);
             break;
         case 12:
-            chest_2(playerId);
+            chest_12(playerId);
             break;
         case 13:
-            chest_2(playerId);
+            chest_13(playerId);
             break;
         case 14:
-            chest_2(playerId);
+            chest_14(playerId);
             break;
         default:
             alert("something went wrong chance switch", card.function)
     }
-    communityChestHistory(playerId, card.content)
+    communityChestHistory(playerId, card.description+" "+card.content)
 }
 
 //ADVANCE TO GO

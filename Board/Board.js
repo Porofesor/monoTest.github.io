@@ -27,6 +27,15 @@ async function CreateField() {
       case 'Bottom':
         FieldsArray=`
           <div class="Field-Upper-Bottom" id='item-${element.id}'>
+            <div class="Hidden" id="Field_info_${element.id}">
+              <div class="Field_info">
+                <div class="ColoredBox-${element.country}"></div>
+                <div class="field__name">${element.title}</div>
+                <div class="Owner">Owner: None</div>
+                <div class="Houeses">Houses: 0</div>
+                <div class="field__price">$${element.property_value}</div>
+              </div>
+            </div>
             <div class="ColoredBox-${element.country}" id="ColoredBox-${element.id}"></div>
             <div class="field__name">${element.title}</div>
             <div class="Players_box" id='playerbox-${element.id}'></div>
@@ -38,12 +47,21 @@ async function CreateField() {
       case "Left":
         FieldsArray=`
           <div class="Field-Left-Right" id='item-${element.id}'>
-            <div class="field__price">$${element.property_value}</div>
-            
+            <div class="field__price">$${element.property_value}</div> 
             <div class="Players_box" id='playerbox-${element.id}'></div>
             <div class="field__name">${element.title}</div>
             <div class="ColoredBox-${element.country}" id="ColoredBox-${element.id}"></div>
-          </div>
+          
+            <div class="Hidden" id="Field_info_${element.id}" style="left:10%">
+              <div class="Field_info">
+                <div class="ColoredBox-${element.country}" style="width:100%; height:20%;"></div>
+                <div class="field__name">${element.title}</div>
+                <div class="Owner">Owner: None</div>
+                <div class="Houeses">Houses: 0</div>
+                <div class="field__price">$${element.property_value}</div>
+              </div>
+            </div>
+            </div>
         `
         break;
       case "Upper":
@@ -53,6 +71,16 @@ async function CreateField() {
             <div class="field__price">$${element.property_value}</div>
             <div class="Players_box" id='playerbox-${element.id}'></div>
             <div class="ColoredBox-${element.country}" id="ColoredBox-${element.id}"></div>
+            
+            <div class="Hidden" id="Field_info_${element.id}" style="top:10%">
+              <div class="Field_info">
+                <div class="ColoredBox-${element.country}"></div>
+                <div class="field__name">${element.title}</div>
+                <div class="Owner">Owner: None</div>
+                <div class="Houeses">Houses: 0</div>
+                <div class="field__price">$${element.property_value}</div>
+              </div>
+            </div>
           </div>
         `
         break;
@@ -62,8 +90,17 @@ async function CreateField() {
             <div class="ColoredBox-${element.country}" id="ColoredBox-${element.id}"></div>
             <div class="field__name">${element.title}</div>
             <div class="Players_box" id='playerbox-${element.id}'></div>
-            
             <div class="field__price">$${element.property_value}</div>
+
+            <div class="Hidden" id="Field_info_${element.id}" style="right:10%">
+              <div class="Field_info">
+                <div class="ColoredBox-${element.country}" style="width:100%; height:20%;"></div>
+                <div class="field__name">${element.title}</div>
+                <div class="Owner">Owner: None</div>
+                <div class="Houeses">Houses: 0</div>
+                <div class="field__price">$${element.property_value}</div>
+              </div>
+            </div>
           </div>
         `
         break;

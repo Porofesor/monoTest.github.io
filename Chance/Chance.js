@@ -65,7 +65,7 @@ const chanceCard = (playerId) => {
         default:
             alert("something went wrong chance switch",card.function)
     }
-    chanceHistory(playerId, card.content)
+    chanceHistory(playerId, card.description+" "+card.content)
 }
 
 //When to just change position and when go thru the board
@@ -156,13 +156,13 @@ const chance_10 = (playerId) => {
 const chance_11 = (playerId) => { 
     const position = PLAYERS[findPlayerById(playerId)].getCurrentPositionId()
 
-    if (Math.abs(position - 28) > Math.abs(position) - 12) {
-        const newPosition = Math.abs(52 - PLAYERS[findPlayerById(playerId)].getCurrentPositionId())
-        PLAYERS[findPlayerById(playerId)].updatePlayerPosition(newPosition)
+    if (Math.abs(position - 28) > Math.abs(position - 12)) {
+        const newPosition = 28
+        PLAYERS[findPlayerById(playerId)].sendPlayerTo(newPosition)
         checkField(PLAYERS[findPlayerById(playerId)]);
     } else {
-        const newPosition = Math.abs(68 - PLAYERS[findPlayerById(playerId)].getCurrentPositionId())
-        PLAYERS[findPlayerById(playerId)].updatePlayerPosition(newPosition)
+        const newPosition = 12
+        PLAYERS[findPlayerById(playerId)].sendPlayerTo(newPosition)
         checkField(PLAYERS[findPlayerById(playerId)]);
     }
 

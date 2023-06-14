@@ -1,4 +1,5 @@
 class Player {
+    rankedField = [];
     constructor(Name, Type, id, money=1000) {
         this.Name = Name;
         this.Type = Type;
@@ -8,6 +9,17 @@ class Player {
         this.moves = 1;
         this.fieldsOwned = []
         this.OutofJail = 0;
+        this.Turn_counter = 0;
+
+        this.stableProbabilities = [];
+        this.w1 = 32;
+        this.w2 = 1.1;
+        this.w3 = 0.62;
+        this.w4 = 0.4;
+        for (let i = 0; i < 40; i++) {
+            this.rankedField.push(i);
+        }
+        this.simulateMoves(1000);
     }
 
     enterStartField() {
@@ -34,7 +46,7 @@ class Player {
         document.getElementById(`player-${this.id}`).outerHTML = "";
     
         //Add Player to new Field
-        document.getElementById(`playerbox-${newPosition}`).innerHTML += `<div class='player' id='player-${this.id}'>${this.id}</div>`
+        document.getElementById(`playerbox-${newPosition}`).innerHTML += `<div class='player' id='player-${this.id}'>${this.id + 1}</div>`
     
         //Update position
         this.currentPositionId = newPosition;
@@ -47,9 +59,14 @@ class Player {
         //Add Player to new Field
         document.getElementById(`playerbox-${positionId}`).innerHTML += `<div class='player' id='player-${this.id}'>${this.id}</div>`
     
+        //Crossing Go
+        if(this.currentPositionId > positionId) {
+            this.addMoney(200);
+        }
         //Update position
         this.currentPositionId = positionId;
-    }
+        checkField(this)
+;    }
 
     placeOnStart() {
         this.currentPositionId = 0;
@@ -101,10 +118,12 @@ class Player {
         if (this.money < 0) {
             bankrupcy(this);
         }
+        updatePlayerList();
     }
 
     addMoney(ammount) {
         this.money += ammount;
+        updatePlayerList();
     }
 
     addField(fieldId) {
@@ -115,5 +134,124 @@ class Player {
     }
     addOutOfJailCard() {
         this.OutofJail += 1;
+    }
+
+    //----------------------------------------------------------------
+    //----------------------------------------------------------------
+    //Support system 
+    simulateMoves(ammountOfThrows) {
+        let fildsEntered = new Array(40).fill(0);
+        let current = 0
+        let newPosition;
+        for (let i = 0; i < ammountOfThrows; i++) {
+            newPosition = (this.diceResult() + current) % 40
+            if (newPosition == 30) {
+                //Go to jail
+                fildsEntered[newPosition] += 1;
+                fildsEntered[10] += 1;
+                newPosition = 10;
+                continue;
+            }
+            fildsEntered[newPosition] += 1;
+            current = newPosition;
+        }
+        this.stableProbabilities = (this.calculateStableProbabilities(fildsEntered));
+    }
+
+    diceResult() {
+        let dice1 = Math.floor((Math.random() * 6) + 1);
+        let dice2 = Math.floor((Math.random() * 6) + 1);
+        return (dice1 + dice2);
+    }
+
+    sumArray(arr) {
+        let sum = 0;
+        arr.forEach(item => {
+            sum += item;
+        });
+        return sum;
+    }
+
+    convertArray(arr) {
+        let newArr = arr;
+        sum = this.sumArray(arr);
+        for (let i = 0; i < arr.length; i++) {
+            newArr[i] = arr[i] / sum;
+        }
+    }
+
+
+    MarkovMatrix(fieldCounts) {
+        const numFields = fieldCounts.length;
+        const matrix = [];
+
+        // Calculate the total number of times any field was entered
+        const total = fieldCounts.reduce((acc, count) => acc + count, 0);
+
+        // Calculate the probabilities of moving from each field to each other field
+        for (let i = 0; i < numFields; i++) {
+            const row = [];
+            for (let j = 0; j < numFields; j++) {
+            const prob = fieldCounts[j] / total;
+            row.push(prob);
+            }
+            matrix.push(row);
+        }
+
+        return matrix;
+    }
+
+    calculateStableProbabilities(fieldCounts) {
+        const numFields = fieldCounts.length;
+        const markovMatrix = this.MarkovMatrix(fieldCounts);
+        let prevVector = new Array(numFields).fill(1 / numFields); // Initialize with equal probabilities
+        let currVector = [];
+      
+        // Calculate the eigenvector for the eigenvalue of 1
+        while (true) {
+          for (let i = 0; i < numFields; i++) {
+            let sum = 0;
+            for (let j = 0; j < numFields; j++) {
+              sum += prevVector[j] * markovMatrix[j][i];
+            }
+            currVector[i] = sum;
+          }
+      
+          // Check for convergence
+          let maxDiff = 0;
+          for (let i = 0; i < numFields; i++) {
+            const diff = Math.abs(currVector[i] - prevVector[i]);
+            if (diff > maxDiff) {
+              maxDiff = diff;
+            }
+          }
+      
+          if (maxDiff < 1e-8) {
+            break;
+          }
+      
+          prevVector = currVector.slice();
+        }
+      
+        return currVector;
+      }
+
+      decisionBuyField(field, prop_val = field.getFieldPropertyValue()) {
+        if (this.money < prop_val) {
+            return 500
+        }
+        const decision_value = ((prop_val * this.w2) + SimulateMoves(this, 7, 3)) - ( (this.stableProbabilities[field.getFieldId()] * this.w1) * ( (this.money * this.w3) + ( field.getField_penalty() * this.w4)));
+        
+        console.log("buy field decision Player" + decision_value);
+
+        return decision_value;
+    } 
+
+    decisionBuyHouse(field, prop_val = 200){
+        if (this.money < prop_val) {
+            return 500
+        }
+        const decision_value = ((prop_val * this.w2) + SimulateMoves(this, 7, 3)) - ( (this.stableProbabilities[field.getFieldId()] * this.w1) * ( (this.money * this.w3) + ( (field.getField_penalty() + field.Field_penaltyForEveryHouse) * this.w4)));
+        return decision_value;
     }
 }

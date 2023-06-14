@@ -62,3 +62,9 @@ const printInHistory = (message) => {
 
     textArea.innerHTML += `${message}\r\n`;
 }
+
+const payPenaltyHistory = (player_name, ammount, field_name) => {
+    const textArea = document.getElementById('interface__history__textarea');
+
+    textArea.innerHTML += `${player_name} had to pay: ${ammount}$ for entering: ${field_name}\r\n`;
+}
