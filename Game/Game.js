@@ -176,12 +176,12 @@ const checkField = (player) => {
     //console.log(player)
     //if Nobody owns it and can be bought // 1 = can be bought, 0 = can't be bought
     if (Field.getFieldOwnerId() == "None" && Field.getFieldFunction() === 1) {
-        console.log("1")
+        //console.log("1")
         buyFieldButton(player.getPlayerId(), Field.getFieldId())
     }
     //if someone else own it
     if (Field.getFieldOwnerId() != "None" && Field.getFieldOwnerId() != player.getPlayerId() && Field.getFieldFunction()==1) {
-        console.log("2")
+        //console.log("2")
         penalty(player, Field);
     }
     //if current player owns it
@@ -199,7 +199,7 @@ const checkField = (player) => {
     //if its jail 
     //TO DO change out_of_jail to USE_OUT_OF_JAIL_CARD
     if (Field.getFieldFunction() == "Jail") {
-        console.log("4")
+        //console.log("4")
         if (player.OutofJail > 0) {
             printInHistory("Player: "+ player.getPlayerName() +" used Get out of jail card")
             player.OutofJail -= 1;
@@ -215,7 +215,7 @@ const checkField = (player) => {
     if (Field.getFieldFunction() == "Chance") {
         //Chance.js
         chanceCard(player.getPlayerId())
-        console.log("5")
+        //console.log("5")
         //Test if after going to jail fields swaps
         return;
     }
@@ -223,7 +223,7 @@ const checkField = (player) => {
     if (Field.getFieldFunction() == "Chest") {
         //Chance.js
         chestCard(player.getPlayerId())
-        console.log("6")
+        //console.log("6")
         //Test if after going to jail fields swaps
         return;
     }

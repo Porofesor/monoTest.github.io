@@ -256,8 +256,8 @@ const nextBider = () => {
         //prepare for next player to move
         //if owner was "none" //added after bug with selling other player field
         if(prevOwner == "None") {
-            console.log("prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())]) ", (PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())]))
-            console.log("moves: " + CURRENT_PLAYER.moves + " turns:" + CURRENT_PLAYER.Turn_counter);
+            //console.log("prepareNextPlayer(PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())]) ", (PLAYERS[findNextPlayer(CURRENT_PLAYER.getPlayerId())]))
+            //console.log("moves: " + CURRENT_PLAYER.moves + " turns:" + CURRENT_PLAYER.Turn_counter);
             if(CURRENT_PLAYER.moves >= 1 && CURRENT_PLAYER.Turn_counter >=1){ //If player still has moves
                 return;
             }
@@ -274,12 +274,12 @@ const nextBider = () => {
         //console.log("CURRE2:",CURRENT_BIDER)
         if (!(PASS.includes(CURRENT_BIDER))) {
             //If player isnt in pass array
-            console.log("break")
+            //console.log("break")
             break;
         }
     }
 
-    console.log("next bider:",(CURRENT_BIDER))
+    //console.log("next bider:",(CURRENT_BIDER))
     //CURRENT_BIDER = findNextPlayer(CURRENT_BIDER)
     if (CURRENT_BIDER.Type == "AI" && !(PASS.includes(CURRENT_BIDER))) {
         CURRENT_BIDER.auctionAI(auction_field ,highest_bid)
@@ -298,7 +298,7 @@ const updateHighestBid = () => {
 
 const endAuction = () => {
     auction_started = 0;
-    console.log("PASS.length: " , PASS.length , " PLAYERS.length:" , PLAYERS.length ," highest_bider" , highest_bider);
+    //console.log("PASS.length: " , PASS.length , " PLAYERS.length:" , PLAYERS.length ," highest_bider" , highest_bider);
     document.getElementById('interface__auction').innerHTML = ``;
     
     if ( PASS.length == PLAYERS.length && highest_bider == "None") {
@@ -403,11 +403,11 @@ const auctionAiOnly = (playerId) => {
         CURRENT_BIDER = findNextBider()
 
         if(PASS.length == PLAYERS.length && highest_bider == "None"){
-            console.log("BREAK 1");
+            //console.log("BREAK 1");
             break;
         } 
         if((PASS.length + 1) == PLAYERS.length && highest_bider != "None"){
-            console.log("BREAK 2");
+            //console.log("BREAK 2");
             break;
         }  
     }
@@ -416,11 +416,11 @@ const auctionAiOnly = (playerId) => {
 
 const findNextBider = () => {
     let next_bider = CURRENT_BIDER;
-    console.log("findNextBider : ", CURRENT_BIDER );
+    //console.log("findNextBider : ", CURRENT_BIDER );
     while (PASS.length != PLAYERS.length){
 
         next_bider = PLAYERS[findNextPlayer(next_bider.getPlayerId())];
-        console.log("findNextBider__ : ", next_bider );
+        //console.log("findNextBider__ : ", next_bider );
         if (!PASS.includes(next_bider)) return  next_bider;
     }
     return CURRENT_BIDER;

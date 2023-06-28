@@ -1,0 +1,4 @@
+Sposoby tesowania/uruchomienia:
+	1. Należy stworzyć serwer lokalny aby przetestować/uruchomić
+
+Albo wejsc na: https://porofesor.github.io/monoTest.github.io/

@@ -1,4 +1,4 @@
-let losers = [];
+var losers = [];
 //execute after player has less than 0 money
 const bankrupcy = (player) => {
     console.log("Start baunkrupcy", player)
@@ -8,8 +8,10 @@ const bankrupcy = (player) => {
 
     if(player.fieldsOwned.length == 0){
         player.decreseMove(99999)
-        printInHistory("Player lost: ", player.getPlayerName());
-        losers.push(player);
+        printInHistory("Player lost: " + player.getPlayerName());
+        if (!losers.includes(player)) {
+            losers.push(player);
+        }
     }else{
         //Opens panel for selling fields and houses
         if(player.Type ==="AI"){
@@ -37,13 +39,7 @@ const bankrupcy = (player) => {
         );
         IsGameGoing = false;    
         printInHistory(`Game ends, Player: ${winner[0].getPlayerName()} Wins!`);
-        throw new Error("Program terminated");
-        //winner[0].decreseMove(99999)
-        //console.log(PLAYERS)
-        //console.log(FIELDS_LIST)
-        IsGameGoing = false;
-        return player;
-        //throw new Error("Game was stoped!");
-        
+        document.getElementById(`interface__auction`).innerHTML=``;
+        throw new Error("Program terminated");    
     }
 }
