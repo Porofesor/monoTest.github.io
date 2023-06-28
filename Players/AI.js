@@ -288,28 +288,14 @@ class AI {
 
     //TO DO finish this
     decisionSellField(field) {
-        let prop_rank = this.rankedField[field.getFieldId()];
-        let prop_val = field.getFieldPropertyValue()
-        let current_money = field.getFieldPropertyValue() * 2;
-        
-        const w1 = 0.4;
-        const w2 = 0.6;
-        const w3 = 0.5;
-        const w4 = 0.1;
+        let prop_val = field.getFieldPropertyValue();
+        let isInFamily = 0;
+        if(checkFieldFamily(this.getPlayerId(), field.getFieldId())){
+            isInFamily = 200;
+        }
+        const decision_value = (prop_val * this.w2) - ( (this.stableProbabilities[field.getFieldId()] * this.w1) * ( (this.money * this.w3) + ( field.getField_penalty() * this.w4))) + isInFamily;
 
-        const nw1 = 0.9;
-        const nw2 = (prop_rank / 40);
-    
-        const r1 = ((current_money - prop_val) * w1);
-        const r2 = r1 * nw2;
-
-        const rn1 = (current_money - prop_val) * nw1;
-        const rn2 = -((current_money - prop_val)* nw2);
-        const rn3 = (current_money * w4)
-    
-        console.log("sell field decision=", (r1 + r2), "-", (rn1 + rn2 + rn3));
-        //TO DO >    ->  <
-        return (r1 + r2) - (rn1 + rn2 + rn3);
+        return decision_value;
     }
 
     //decision to buy a house
@@ -469,7 +455,6 @@ class AI {
     //TO DO change propVal 
     async bankrupcy(){
         //alert("AI Bankrupcy wasnt tested properly yet");
-
         //const decision = new Map();
         const PropertyValues = new Map();
         this.fieldsOwned.forEach(element => {
