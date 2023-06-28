@@ -332,9 +332,11 @@ class AI {
         this.Turn_counter = 0;
         CURRENT_PLAYER = this;
         if(IsGameGoing == false) return;
+        if(this.money < 0 && this.fieldsOwned.length > 0) bankrupcy(this);
+        if(this.money < 0 && this.fieldsOwned.length < 0) return;
         while (this.moves > 0) {
             this.diceRole()
-            sleep(100);
+            sleep(500);
             this.checkField();
         }
         //game

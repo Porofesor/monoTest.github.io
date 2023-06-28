@@ -156,11 +156,11 @@ const chance_10 = (playerId) => {
 const chance_11 = (playerId) => { 
     const position = PLAYERS[findPlayerById(playerId)].getCurrentPositionId()
 
-    if (Math.abs(position - 28) > Math.abs(position - 12)) {
+    if (position == 22 || position == 36 ) {
         const newPosition = 28
         PLAYERS[findPlayerById(playerId)].sendPlayerTo(newPosition)
         checkField(PLAYERS[findPlayerById(playerId)]);
-    } else {
+    }else {
         const newPosition = 12
         PLAYERS[findPlayerById(playerId)].sendPlayerTo(newPosition)
         checkField(PLAYERS[findPlayerById(playerId)]);
